@@ -1,0 +1,2 @@
+The mean number of services was: 26.369
+The standard deviation of the number of services offered was:22.0
