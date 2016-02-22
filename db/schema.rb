@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20160222141355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "facilities", force: :cascade do |t|
     t.string   "ID"
@@ -48,9 +47,11 @@ ActiveRecord::Schema.define(version: 20160222141355) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.string "Facility_ID"
-    t.string "Service_Level_1"
-    t.string "Service_Level_2"
+    t.string   "Facility_ID"
+    t.string   "Service_Level_1"
+    t.string   "Service_Level_2"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

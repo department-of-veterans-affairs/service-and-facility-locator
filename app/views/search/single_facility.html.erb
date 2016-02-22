@@ -14,49 +14,75 @@
 </div> 
 
 <div class="section one">
-  <div class="primary" style=color:black>
-    <p>
+    <div class="row">
+        <div class="small-12 column">
+            <h2><%= @facility.Location_Descriptive_Name_Common_Name %></h2>
+        </div>
+    </div>
+    <div class="row">
+  <div class="small-4 columns">
+<!--
       <strong>ID:</strong><%= @facility.ID %><br>
       <strong>Name:</strong><%= @facility.Official_Station_Name %><br>
-      <strong>Common_Name</strong><%= @facility.Location_Descriptive_Name_Common_Name %><br>
-      <strong>Classification</strong><%= @facility.Classification %><br>
-      <strong>Street_Address</strong><%= @facility.Street_Address %><br>
-      <strong>Suite_Building_Number</strong><%= @facility.Suite_Building_Number %><br>
-      <strong>City</strong><%= @facility.City %><br>
-      <strong>State</strong><%= @facility.State %><br>
-      <strong>Zip_Code</strong><%= @facility.Zip_Code %><br>
+-->
+<!--      <strong>Common_Name</strong>-->
+
+      <p class="facility-details">
+<!--      <strong>Classification</strong><%= @facility.Classification %><br>-->
+<!--      <strong>Street_Address</strong>-->
+          <%= @facility.Street_Address %><br>
+          <% if @facility.Suite_Building_Number %>
+            <%= @facility.Suite_Building_Number %><br>
+        <% else %>
+    <!-- <p>No Suite Number</p> -->
+        <% end %>
+          <%= @facility.City %>, <%= @facility.State %> <%= @facility.Zip_Code %>
+      </p>
+      <p class="facility-details">
       <strong>Station_Phone_Number</strong><%= @facility.Station_Phone_Number %><br>
       <strong>Station_Fax_Number</strong><%= @facility.Station_Fax_Number %><br>
       <strong>After_Hours_Phone_Number</strong><%= @facility.After_Hours_Phone_Number %><br>
       <strong>Pharmacy_Phone_Number</strong><%= @facility.Pharmacy_Phone_Number %><br>
       <strong>Enrollment_Coordinator_Phone_Number</strong><%= @facility.Enrollment_Coordinator_Phone_Number %><br>
       <strong>Patient_Advocate_Phone_Number</strong><%= @facility.Patient_Advocate_Phone_Number %><br>
-      <strong>Monday_Hours</strong><%= @facility.Monday_Hours %><br>
+    </p>  
+         
+      <p class="facility-details">      
+    <strong>Monday_Hours</strong><%= @facility.Monday_Hours %><br>
       <strong>Tuesday_Hours</strong><%= @facility.Tuesday_Hours %><br>
       <strong>Wednesday_Hours</strong><%= @facility.Wednesday_Hours %><br>
       <strong>Thursday_Hours</strong><%= @facility.Thursday_Hours %><br>
       <strong>Friday_Hours</strong><%= @facility.Friday_Hours %><br>
       <strong>Saturday_Hours</strong><%= @facility.Saturday_Hours %><br>
       <strong>Sunday_Hours</strong><%= @facility.Sunday_Hours %><br>
-      <strong>Hours_Note</strong><%= @facility.Hours_Note %><br><br><br>
-
-    <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.Longitude %>,<%= @facility.Latitude %>)/<%= @facility.Longitude %>,<%= @facility.Latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
-
+          <strong>Hours_Note</strong><%= @facility.Hours_Note %>
+      </p>
+    </div>
+    <div class="small-4 columns">
+    <h5>Services at this Facility</h5>
     <table>
+<!--
       <tr>
         <th>Service Level 1</th>
+        <th></th>
         <th>Service Level 2</th>
       </tr>
+-->
 
       <% @services.each do |service| %>
           <tr>
             <td><%= service.Service_Level_1 %></td>
+            <td class="td-hyphen">–</td>  
             <td><%= service.Service_Level_2 %></td>
           </tr>
       <% end %>
     </table>
-  </div>
+    </div>
 
 
-
-</div> 
+    <div class="small-4 columns">
+        <h5>How to Get Here</h5>
+        <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.Longitude %>,<%= @facility.Latitude %>)/<%= @facility.Longitude %>,<%= @facility.Latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
+    </div>
+    </div><!--EndRow-->
+  </div><!--EndSection-->
