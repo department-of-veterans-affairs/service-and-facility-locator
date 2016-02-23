@@ -59,6 +59,7 @@ group :development, :test do
   gem 'capybara'
   gem 'sniffybara', git: 'https://github.com/department-of-veterans-affairs/sniffybara.git'
   gem 'simplecov'
+  gem 'factory_girl_rails', '4.2.1'
 end
 
 group :development do
