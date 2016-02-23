@@ -1,11 +1,14 @@
 language: ruby
-rvm:
-  - 2.3.0
 
 branches:
     only:
         - master
-
+install:
+  - bundle install
+  - bundle exec rake db:create
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:migrate
+  
 script:
   - bundle exec rake
 
