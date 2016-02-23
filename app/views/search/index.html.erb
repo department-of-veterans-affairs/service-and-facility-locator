@@ -1,0 +1,53 @@
+<style>
+  body { margin:0; padding:0; }
+  #map { height:500px; width:100%; }
+</style>
+
+<% provide(:title, "Home") %>
+<div id="content" class="interior">
+  <a id="content" href="#content" class="sr-only">Content starts here.</a>
+
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+          <li class="active"><h2>Service And Facility Locator</h2></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+  
+   <div class="section one">
+      <div class="primary">
+
+        <button type="button" id="facilities_search" class="btn btn-sm btn-tab btn-tab-selected">Facilities</button>
+        <button type="button" id="services_search" class="btn btn-sm btn-tab">Services</button>
+        
+        <select id="facilities_selection"  style="width: 20%;">
+          <option value="VA Medical Center (VAMC)">VA Medical Center</option>
+          <option value="Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)">Residential Care Site</option>
+          <option value="Extended Care Site (Community Living Center) (Stand-Alone)">Extended Care Site</option>
+          <option value="Health Care Center (HCC)">Health Care Center</option>
+          <option value="Primary Care CBOC">Primary Care CBOC</option>
+          <option value="Multi-Specialty CBOC">Multi-Specialty CBOC</option>
+          <option value="Other Outpatient Services (OOS)">Other Outpatient Services</option>
+        </select>
+        
+        <select id="services_selection" visible=false style="width: 20%;">
+          <!-- TODO: AYL. Add ability to search by service -->
+          <option value="This doesn't work yet" selected>Primary Care</option>
+        </select>
+
+        <button type="button" id="search" class="btn btn-sm btn-tab">Search</button>
+    </div> 
+    
+    <div id='map' class="map-div"></div>
+    <div class="small-12 large-4 columns map-container list-container list-of-facilities">
+        <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
+    </div>
+  </div>
+</div>
+

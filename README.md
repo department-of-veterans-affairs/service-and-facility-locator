@@ -1,4 +1,6 @@
-# Facilities-Locator-post-11-11-2015
-Placeholder repository containing next gen Facilities Locator artifacts and eventual application. 
+# Service And Facility Locator
 
-Created to centralize related tasks and management efforts. 
+This build monitor should be up and running as soon as you set up travis!
+[![Build Status](https://travis-ci.org/department-of-veterans-affairs/service-and-facility-locator.svg?branch=master)](https://travis-ci.org/department-of-veterans-affairs/service-and-facility-locator)
+
+Tell people about your project!
