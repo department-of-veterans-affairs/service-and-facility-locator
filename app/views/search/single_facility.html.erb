@@ -44,22 +44,22 @@
       <p class="facility-details">
       <table>
        <tr> 
-      <td class="facility-detail-label">Main Number:</td><td><%= @facility.Station_Phone_Number %></td>
+      <td class="facility-detail-label">Main Number:</td><td class="facility-detail-label"><%= @facility.Station_Phone_Number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Fax:</td><td><%= @facility.Station_Fax_Number %></td>
+      <td class="facility-detail-label">Fax:</td><td class="facility-detail-label"><%= @facility.Station_Fax_Number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">After Hours:</td><td><%= @facility.After_Hours_Phone_Number %></td>
+      <td class="facility-detail-label">After Hours:</td><td class="facility-detail-label"><%= @facility.After_Hours_Phone_Number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Pharmacy:</td><td><%= @facility.Pharmacy_Phone_Number %></td>
+      <td class="facility-detail-label">Pharmacy:</td><td class="facility-detail-label"><%= @facility.Pharmacy_Phone_Number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Enrollment Coordinator:</td><td><%= @facility.Enrollment_Coordinator_Phone_Number %></td>
+      <td class="facility-detail-label">Enrollment Coordinator:</td><td class="facility-detail-label"><%= @facility.Enrollment_Coordinator_Phone_Number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Patient Advocate:</td><td><%= @facility.Patient_Advocate_Phone_Number %></td>
+      <td class="facility-detail-label">Patient Advocate:</td><td class="facility-detail-label"><%= @facility.Patient_Advocate_Phone_Number %></td>
           </tr>
         </table>
       <p></p>
@@ -68,26 +68,26 @@
 
         <table>
         <tr>    
-      <td  class="facility-detail-label">Monday:</td><td><%= @facility.Monday_Hours %></td>
+      <td  class="facility-detail-label">Monday:</td><td class="facility-detail-label"><%= @facility.Monday_Hours %></td>
         </tr>
         <tr> 
-      <td  class="facility-detail-label">Tuesday:</td><td><%= @facility.Tuesday_Hours %></td>
+      <td  class="facility-detail-label">Tuesday:</td><td class="facility-detail-label"><%= @facility.Tuesday_Hours %></td>
         </tr>
         <tr> 
-      <td  class="facility-detail-label">Wednesday:</td><td><%= @facility.Wednesday_Hours %></td>
+      <td  class="facility-detail-label">Wednesday:</td><td class="facility-detail-label"><%= @facility.Wednesday_Hours %></td>
         </tr>
         <tr> 
-      <td  class="facility-detail-label">Thursday:</td><td><%= @facility.Thursday_Hours %></td>
+      <td  class="facility-detail-label">Thursday:</td><td class="facility-detail-label"><%= @facility.Thursday_Hours %></td>
         </tr>
         <tr> 
-      <td  class="facility-detail-label">Friday:</td><td><%= @facility.Friday_Hours %></td>
+      <td  class="facility-detail-label">Friday:</td><td class="facility-detail-label"><%= @facility.Friday_Hours %></td>
         </tr>
         <tr> 
-      <td  class="facility-detail-label">Saturday:</td><td><%= @facility.Saturday_Hours %></td>
+      <td  class="facility-detail-label">Saturday:</td><td class="facility-detail-label"><%= @facility.Saturday_Hours %></td>
         </tr>
         <tr> 
      </table>
-      <td class="facility-detail-label">Sunday:</td><td><%= @facility.Sunday_Hours %></td>
+      <td class="facility-detail-label">Sunday:</td><td class="facility-detail-label"><%= @facility.Sunday_Hours %></td>
         </tr> 
       <p class="facility-details"><span class="facility-detail-label">Note: </span><%= @facility.Hours_Note %></p>
 
@@ -105,9 +105,9 @@
 
       <% @services.each do |service| %>
           <tr>
-            <td><%= service.Service_Level_1 %></td>
+            <td class="facility-detail-label"><%= service.Service_Level_1 %></td>
             <td class="td-hyphen">–</td>  
-            <td><%= service.Service_Level_2 %></td>
+            <td class="facility-detail-label"><%= service.Service_Level_2 %></td>
           </tr>
       <% end %>
     </table>
