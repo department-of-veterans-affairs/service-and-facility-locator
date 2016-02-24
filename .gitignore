@@ -17,4 +17,6 @@
 /logfile
 /tmp
 /coverage
+
 /.idea/*
+public/assets/**

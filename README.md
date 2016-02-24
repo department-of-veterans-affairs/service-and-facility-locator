@@ -27,6 +27,12 @@ Using rbenv install ruby:
 $ rbenv install 2.3.0
 ```
 
+####Postgres Setup
+
+Ensure you have [Postgres](http://www.postgresql.org/) installed and running
+
+   * [Instructions](http://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/) using Homebrew
+   
 ####Service and Facility Locator Setup
 Clone the repository:
 

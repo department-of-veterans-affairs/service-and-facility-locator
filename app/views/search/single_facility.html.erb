@@ -21,20 +21,12 @@
     </div>
     <div class="row">
   <div class="small-4 columns">
-<!--
-      <strong>ID:</strong><%= @facility.ID %><br>
-      <strong>Name:</strong><%= @facility.Official_Station_Name %><br>
--->
-<!--      <strong>Common_Name</strong>-->
-
       <p class="facility-details">
-<!--      <strong>Classification</strong><%= @facility.Classification %><br>-->
-<!--      <strong>Street_Address</strong>-->
           <%= @facility.Street_Address %><br>
           <% if @facility.Suite_Building_Number %>
             <%= @facility.Suite_Building_Number %><br>
         <% else %>
-    <!-- <p>No Suite Number</p> -->
+    <!-- No Suite Number -->
         <% end %>
           <%= @facility.City %>, <%= @facility.State %> <%= @facility.Zip_Code %>
       </p>
@@ -61,14 +53,6 @@
     <div class="small-4 columns">
     <h5>Services at this Facility</h5>
     <table>
-<!--
-      <tr>
-        <th>Service Level 1</th>
-        <th></th>
-        <th>Service Level 2</th>
-      </tr>
--->
-
       <% @services.each do |service| %>
           <tr>
             <td><%= service.Service_Level_1 %></td>

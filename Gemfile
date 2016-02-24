@@ -28,7 +28,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Discussion: https://github.com/18F/college-choice/issues/597#issuecomment-139034834
 gem "puma", "~> 2.16.0"
 
-#TODO AYL add version number
 gem 'pg', '~> 0.18.4'
 
 # adding PostGIS for spatial queries
