@@ -1,3 +1,8 @@
+<style>
+  body { margin:0; padding:0; }
+  #map { height:500px; width:100%; }
+</style>
+
 <% provide(:title, "Home") %>
 <div id="content" class="interior">
   <a id="content" href="#content" class="sr-only">Content starts here.</a>
@@ -18,19 +23,11 @@
    <div class="section one">
       <div class="primary">
 
-
-        <div class="small-12 medium-9 columns text-input nowrap">
-           <input id="search_location" type="text" placeholder="Search for a location">
-        </div>
-        
-        
         <select id="administration_selection">
-          <option disabled selected>Select Service Type</option>
           <option value="Health">Health</option>
           <option value="Benefits">Benefits</option>
           <option value="Cemetaries">Cemetaries</option>
         </select>
-        <br>
         
         <select multiple id="service_level_1_selection">
           <option value="All" selected>All</option>
@@ -39,10 +36,16 @@
         <select multiple id="service_level_2_selection">
           <option value="All" selected>All</option>
         </select>
-        <br>
-        <button type="button" id="search" class="btn btn-sm btn-tab" disabled="true">Search</button>
+
+        <div class="small-12 medium-9 columns text-input nowrap">
+           <input id="search_location" type="text" placeholder="Search for a location">
+        </div>
+        <button type="button" id="search" class="btn btn-sm btn-tab">Search</button>
     </div> 
+    
     <div id='map'></div>
+    <div class="small-12 large-4 columns map-container list-container">
+        <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
+    </div>
   </div>
 </div>
-
