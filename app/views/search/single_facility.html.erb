@@ -91,34 +91,24 @@
           </tr>
        </table>
     </div>
-    <div class="medium-4 columns">
+    <div class="medium-4 columns clearfix">
     <h6>Services at this Facility</h6>
-    <table>
-<!--
-      <tr>
-        <th>Service Level 1</th>
-        <th></th>
-        <th>Service Level 2</th>
-      </tr>
--->
+        <% @services_hash.each do | service_level_1, service_level_2_array | %>
+      <div class="service-block">
+              <span class="facility-details"><span class="l1-services"><%= service_level_1 %></span>
 
-      <% @services_hash.each do | service_level_1, service_level_2_array | %>
-          <tr>
-            <td class="facility-detail-label"><%= service_level_1 %></td>
-          </tr>
-            <% service_level_2_array.each do | service_level_2 | %>
-              <tr><td></td>
-                <td class="facility-detail-label"><%= service_level_2 %></td>
-              </tr>  
-            <% end %>  
-          </tr>
+              <% service_level_2_array.each do | service_level_2 | %>
+                <ul class="services-ul">
+                  <li class="l2-service"><%= service_level_2 %></li>
+                </ul>  
+              <% end %>  
+      </div>
       <% end %>
-    </table>
     </div>
 
 
     <div class="medium-4 columns">
-        <h6><a target="_blank" href="https://www.google.com/maps/dir//<%= @facility.street_address %> <%= @facility.suite_building_number %> <%= @facility.city %> <%= @facility.state %> <%= @facility.zip_code %>">Directions</a></h6>
+        <h6><a target="_blank" href="https://www.google.com/maps/dir//<%= @facility.street_address %> <%= @facility.suite_building_number %> <%= @facility.city %> <%= @facility.state %> <%= @facility.zip_code %>">Driving Directions</a></h6>
         <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.longitude %>,<%= @facility.latitude %>)/<%= @facility.longitude %>,<%= @facility.latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
     </div>
     </div><!--EndRow-->
