@@ -32,7 +32,6 @@
           <%= @facility.city %>, <%= @facility.state %> 
           <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%>
         <h5>Phone:</h5>
-      <p class="facility-details">
       <table>
        <tr> 
       <td class="facility-detail-label">Main Number:</td><td class="facility-detail-label">
@@ -85,9 +84,9 @@
           </tr>
           <tr> 
             <td class="facility-detail-label">Sunday:</td><td class="facility-detail-label"><%= @facility.sunday_hours %></td>
-          </tr> 
+          </tr>
           <tr>
-            <td><p class="facility-details"><span class="facility-detail-label">Note: </span><%= @facility.hours_note %></p></td>
+            <td colspan="2" class="hours_note"><span class="facility-detail-label">Note:&nbsp;</span><%= @facility.hours_note %></td>
           </tr>
        </table>
     </div>
