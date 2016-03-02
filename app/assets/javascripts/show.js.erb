@@ -29,7 +29,6 @@ $( document ).ready(function() {
     var service_level_1 = get_string_from_url(URL, "service_level_1");
     
     $('#service_level_1_selection').show();
-    debugger;
     parameters["service_level_1"] = service_level_1;
     $.ajax({
         url: '/service_level_2',
