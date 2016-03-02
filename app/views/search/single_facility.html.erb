@@ -1,56 +1,63 @@
 <% provide(:title, "Single Facility") %>
 <div id="content" class="interior">
   <a id="content" href="#content" class="sr-only">Content starts here.</a>
-  <%= render 'layouts/breadcrumbs' %>
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+          <li class="active"><h2>Service And Facility Locator</h2></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div> 
 
 <div class="section one">
     <div class="row">
         <div class="small-12 column">
-<!--            <h2><%= @facility.Location_Descriptive_Name_Common_Name %></h2>-->
-            <h2><%= @facility.Official_Station_Name %></h2>
+            <h2><%= @facility.official_station_name %></h2>
         </div>
     </div>
     <div class="row">
   <div class="medium-4 columns">
       <h6>Facility Details</h6>
-<!--
-      <span class="facility-detail-label">ID:</span><%= @facility.ID %><br>
-      <span class="facility-detail-label">Name:</span><%= @facility.Official_Station_Name %><br>
--->
-<!--      <span class="facility-detail-label">Common_Name</span>-->
-<h5>Street Address:</h5>
+      <h5>Street Address:</h5>
       <p class="facility-details">
-          
-<!--      <span class="facility-detail-label">Classification</span><%= @facility.Classification %><br>-->
-<!--      <span class="facility-detail-label">Street_Address</span>-->
-          <%= @facility.Street_Address %><br>
-          <% if @facility.Suite_Building_Number %>
-            <%= @facility.Suite_Building_Number %><br>
+          <%= @facility.street_address %><br>
+          <% if @facility.suite_building_number %>
+            <%= @facility.suite_building_number %><br>
         <% else %>
     <!-- <p>No Suite Number</p> -->
         <% end %>
-          <%= @facility.City %>, <%= @facility.State %> <%= @facility.Zip_Code %>
+          <%= @facility.city %>, <%= @facility.state %> 
+          <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%>
         <h5>Phone:</h5>
       <p class="facility-details">
       <table>
        <tr> 
-      <td class="facility-detail-label">Main Number:</td><td class="facility-detail-label"><%= @facility.Station_Phone_Number %></td>
+      <td class="facility-detail-label">Main Number:</td><td class="facility-detail-label">
+        <%= @facility.station_phone_number[-1, 1] == 'x' ? @facility.station_phone_number.chomp('x') : @facility.station_phone_number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Fax:</td><td class="facility-detail-label"><%= @facility.Station_Fax_Number %></td>
+      <td class="facility-detail-label">Fax:</td><td class="facility-detail-label">
+        <%= @facility.station_fax_number[-1, 1] == 'x' ? @facility.station_fax_number.chomp('x') : @facility.station_fax_number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">After Hours:</td><td class="facility-detail-label"><%= @facility.After_Hours_Phone_Number %></td>
+      <td class="facility-detail-label">After Hours:</td><td class="facility-detail-label">
+        <%= @facility.after_hours_phone_number[-1, 1] == 'x' ? @facility.after_hours_phone_number.chomp('x') : @facility.after_hours_phone_number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Pharmacy:</td><td class="facility-detail-label"><%= @facility.Pharmacy_Phone_Number %></td>
+      <td class="facility-detail-label">Pharmacy:</td><td class="facility-detail-label">
+      <%= @facility.pharmacy_phone_number[-1, 1] == 'x' ? @facility.pharmacy_phone_number.chomp('x') : @facility.pharmacy_phone_number %></td>
+      
         </tr>
         <tr> 
-      <td class="facility-detail-label">Enrollment Coordinator:</td><td class="facility-detail-label"><%= @facility.Enrollment_Coordinator_Phone_Number %></td>
+      <td class="facility-detail-label">Enrollment Coordinator:</td><td class="facility-detail-label">
+        <%= @facility.enrollment_coordinator_phone_number[-1, 1] == 'x' ? @facility.enrollment_coordinator_phone_number.chomp('x') : @facility.enrollment_coordinator_phone_number %></td>
         </tr>
         <tr> 
-      <td class="facility-detail-label">Patient Advocate:</td><td class="facility-detail-label"><%= @facility.Patient_Advocate_Phone_Number %></td>
+      <td class="facility-detail-label">Patient Advocate:</td><td class="facility-detail-label">
+        <%= @facility.patient_advocate_phone_number[-1, 1] == 'x' ? @facility.patient_advocate_phone_number.chomp('x') : @facility.patient_advocate_phone_number %></td>
           </tr>
         </table>
       <p></p>
@@ -58,30 +65,31 @@
          <h5>Hours of Operation:</h5>
 
         <table>
-        <tr>    
-      <td  class="facility-detail-label">Monday:</td><td class="facility-detail-label"><%= @facility.Monday_Hours %></td>
-        </tr>
-        <tr> 
-      <td  class="facility-detail-label">Tuesday:</td><td class="facility-detail-label"><%= @facility.Tuesday_Hours %></td>
-        </tr>
-        <tr> 
-      <td  class="facility-detail-label">Wednesday:</td><td class="facility-detail-label"><%= @facility.Wednesday_Hours %></td>
-        </tr>
-        <tr> 
-      <td  class="facility-detail-label">Thursday:</td><td class="facility-detail-label"><%= @facility.Thursday_Hours %></td>
-        </tr>
-        <tr> 
-      <td  class="facility-detail-label">Friday:</td><td class="facility-detail-label"><%= @facility.Friday_Hours %></td>
-        </tr>
-        <tr> 
-      <td  class="facility-detail-label">Saturday:</td><td class="facility-detail-label"><%= @facility.Saturday_Hours %></td>
-        </tr>
-        <tr> 
-     </table>
-      <td class="facility-detail-label">Sunday:</td><td class="facility-detail-label"><%= @facility.Sunday_Hours %></td>
-        </tr> 
-      <p class="facility-details"><span class="facility-detail-label">Note: </span><%= @facility.Hours_Note %></p>
-
+          <tr>    
+            <td  class="facility-detail-label">Monday:</td><td class="facility-detail-label"><%= @facility.monday_hours %></td>
+          </tr>
+          <tr> 
+            <td  class="facility-detail-label">Tuesday:</td><td class="facility-detail-label"><%= @facility.tuesday_hours %></td>
+          </tr>
+          <tr> 
+            <td  class="facility-detail-label">Wednesday:</td><td class="facility-detail-label"><%= @facility.wednesday_hours %></td>
+          </tr>
+          <tr> 
+            <td  class="facility-detail-label">Thursday:</td><td class="facility-detail-label"><%= @facility.thursday_hours %></td>
+          </tr>
+          <tr> 
+            <td  class="facility-detail-label">Friday:</td><td class="facility-detail-label"><%= @facility.friday_hours %></td>
+          </tr>
+          <tr> 
+            <td  class="facility-detail-label">Saturday:</td><td class="facility-detail-label"><%= @facility.saturday_hours %></td>
+          </tr>
+          <tr> 
+            <td class="facility-detail-label">Sunday:</td><td class="facility-detail-label"><%= @facility.sunday_hours %></td>
+          </tr> 
+          <tr>
+            <td><p class="facility-details"><span class="facility-detail-label">Note: </span><%= @facility.hours_note %></p></td>
+          </tr>
+       </table>
     </div>
     <div class="medium-4 columns">
     <h6>Services at this Facility</h6>
@@ -94,11 +102,15 @@
       </tr>
 -->
 
-      <% @services.each do |service| %>
+      <% @services_hash.each do | service_level_1, service_level_2_array | %>
           <tr>
-            <td class="facility-detail-label"><%= service.Service_Level_1 %></td>
-            <td class="td-hyphen">–</td>  
-            <td class="facility-detail-label"><%= service.Service_Level_2 %></td>
+            <td class="facility-detail-label"><%= service_level_1 %></td>
+          </tr>
+            <% service_level_2_array.each do | service_level_2 | %>
+              <tr><td></td>
+                <td class="facility-detail-label"><%= service_level_2 %></td>
+              </tr>  
+            <% end %>  
           </tr>
       <% end %>
     </table>
@@ -106,8 +118,8 @@
 
 
     <div class="medium-4 columns">
-        <h6>How to Get Here</h6>
-        <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.Longitude %>,<%= @facility.Latitude %>)/<%= @facility.Longitude %>,<%= @facility.Latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
+        <h6><a target="_blank" href="https://www.google.com/maps/dir//<%= @facility.street_address %> <%= @facility.suite_building_number %> <%= @facility.city %> <%= @facility.state %> <%= @facility.zip_code %>">Directions</a></h6>
+        <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.longitude %>,<%= @facility.latitude %>)/<%= @facility.longitude %>,<%= @facility.latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
     </div>
     </div><!--EndRow-->
   </div><!--EndSection-->

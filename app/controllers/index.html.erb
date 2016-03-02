@@ -2,16 +2,7 @@
 <div id="content" class="interior">
   <a id="content" href="#content" class="sr-only">Content starts here.</a>
 
-  <div class="splash">
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-          <li class="active"><h2>Service And Facility Locator</h2></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  
+  <%= render 'layouts/breadcrumbs' %>  
   <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
   
@@ -32,15 +23,12 @@
         </select>
         <br>
         
-        <select multiple id="service_level_1_selection">
+        <select multiple id="service_level_1">
           <option value="All" selected>All</option>
         </select>
 
-        <select multiple id="service_level_2_selection">
-          <option value="All" selected>All</option>
-        </select>
         <br>
-        <button type="button" id="search" class="btn btn-sm btn-tab" disabled="true">Search</button>
+        <button type="button" id="search" class="btn btn-sm btn-tab" onclick="search()">Search</button>
     </div> 
     <div id='map'></div>
   </div>

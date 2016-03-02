@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :search, only: [:index, :show]
   
-  get "/single_facility/:ID" => 'search#single_facility'
+  get "/single_facility/:facility_id" => 'search#single_facility'
+  get "/service_types_by_administration" => 'search#service_types_by_administration'
+  get "/service_level_2" => 'search#service_level_2'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

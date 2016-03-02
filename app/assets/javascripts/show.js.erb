@@ -1,0 +1,157 @@
+$( document ).ready(function() {  
+  L.mapbox.accessToken = 'pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
+  var geocoder = L.mapbox.geocoder('mapbox.places');
+  var map = L.mapbox.map('map', 'mapbox.streets')
+        .setView([40, -74.50], 5);
+  map.scrollWheelZoom.disable();
+
+  var parameters = {};
+  var URL = window.location.href;
+
+  if (URL.includes("administration")) {
+    var administration = get_string_from_url(URL, "administration");
+    $('#administration_selection').val(administration);
+    parameters["administration"] = administration;
+    $.ajax({
+        url: '/service_types_by_administration',
+        type: 'GET',
+        data: parameters,
+        dataType: "json",
+        success: function(data){
+            fill_service_level(data, 'service_level_1_selection');
+        },
+        failure: function(data){
+            alert(data);
+        }
+    });
+  }
+  if(URL.includes("service_level_1")) {
+    var service_level_1 = get_string_from_url(URL, "service_level_1");
+    
+    $('#service_level_1_selection').show();
+    parameters["service_level_1"] = service_level_1;
+    $.ajax({
+        url: '/service_level_2',
+        type: 'GET',
+        data: parameters,
+        dataType: "json",
+        success: function(data){
+            fill_service_level(data, 'service_level_2_selection');
+        },
+        failure: function(data){
+            alert(data);
+        }
+    });
+  } 
+  if(URL.includes("service_level_2")) {
+    var service_level_2 = get_string_from_url(URL, "service_level_2")
+    $('#service_level_2_selection').val(service_level_2);
+    parameters["service_level_2"] = service_level_2;
+  }
+  
+  
+  if (URL.includes("Location=")) {
+    search_location.value = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ');
+    geocoder.query(search_location.value, showMap);
+  }
+  
+  $.ajax({
+      url: '/search/show',
+      type: 'GET',
+      data: parameters,
+      dataType: "json",
+      success: function(data){
+          plotData(data, map);
+      },
+      failure: function(data){
+          alert(data);
+      }
+  });
+  
+
+  function showMap(err, data) {
+    // The geocoder can return an area, like a city, or a
+    // point, like an address. Here we handle both cases,
+    // by fitting the map bounds to an area or zooming to a point.
+    if (data.lbounds) {
+        map.fitBounds(data.lbounds);
+    } else if (data.latlng) {
+        map.setView([data.latlng[0], data.latlng[1]], 13);
+    }
+  } 
+
+  // Clear the facilities list
+  $("#facilitiesList").html("");
+  
+  
+  // Get user location from HTML5 location API if available
+/*  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(recenter, function() {});
+  }*/
+
+  function recenter(position) {
+    map.setView({
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    });
+    map.setZoom(12);
+  }
+
+  //plot data on the map
+  function plotData(data, map){
+    //remove points from map
+    
+    //remove facilities from list
+    $("#facilitiesList").html("");
+    
+   for (var i = 0; i < data.length; i++) {
+     if (isNaN(parseFloat(data[i]['longitude'])) || isNaN(parseFloat(data[i]['latitude']))) {
+       continue;
+     }
+     
+      L.mapbox.featureLayer({
+        // this feature is in the GeoJSON format: see geojson.org
+        // for the full specification
+        type: 'Feature',
+        geometry: {
+            type: 'Point',
+            // coordinates here are in longitude, latitude order because
+            // x, y is the standard for GeoJSON and many formats
+            coordinates: [ data[i]['longitude'], data[i]['latitude']]
+        },
+        properties: {
+          title: data[i]['location_descriptive_name_common_name'],
+          radius: 6,
+          fillColor: 'white',
+          color: '#1B384E',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 1
+        }
+      }).addTo(map);
+      
+      
+      // also add to the facilities list
+      var li = "<li data-sid=" + data[i]['facility_id']+ ">" +
+                    facilityHTML(data[i]) + 
+                    "</li>";
+      $("#facilitiesList").append(li);
+    }
+  }
+  
+  function facilityHTML(facility) {
+    var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
+    
+    return title + "<br>\nPhone Number: " +
+      facility.station_phone_number + "<br>\n"
+      + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">website</a><br>\n';
+  }
+});
+
+function get_string_from_url(URL, substring_to_find) {
+  var string_to_return = URL.substring(URL.indexOf(substring_to_find+"=") + substring_to_find.length + 1);
+  if(string_to_return.indexOf("&") > -1 ) {
+    string_to_return = string_to_return.substring(0, string_to_return.indexOf("&"))
+  }
+  return string_to_return.replace(/%20/g, ' ');
+}
