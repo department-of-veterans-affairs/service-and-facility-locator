@@ -30,7 +30,8 @@
     <!-- <p>No Suite Number</p> -->
         <% end %>
           <%= @facility.city %>, <%= @facility.state %> 
-          <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%>
+        <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%></p>
+    <p><a href="#">Facility Website</a></p>
         <h5>Phone:</h5>
       <table>
        <tr> 

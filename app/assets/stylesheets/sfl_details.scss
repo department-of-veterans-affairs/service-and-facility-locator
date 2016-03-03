@@ -89,17 +89,13 @@ table td {
   font-size: .60rem;
 }
 
-.move-left .off-canvas-menu {
-  width: 400px;
-}
-
-.right-off-canvas-menu {
-  margin-left: 300px;
+.top-off-canvas-menu {
+  width: 80%;
 }
 
 .refinements-panel {
   background-color: $white;
-  min-height: 500px;
+  margin-left: 1rem;
 }
 
 .facilities-list {
@@ -122,6 +118,36 @@ table td {
   font-weight: 700;
 }
 
+.choice-toggle {
+  position: absolute;
+  height: 45px;
+  top: 15px;
+  right: 15px;
+  z-index: 99999999999;
+  background: rgba($white, 0.85);
+  padding: .5rem;
+}
 .search-results-list {
   list-style: none;
+}
+
+.refine-button {
+  padding: .25rem;
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+.bubble-title {
+  font-size: 1rem;
+  color: $color-primary-darkest;
+  font-weight: 700;
+}
+
+.address {
+  font-size: .85rem;
+  line-height: 1rem;
+}
+
+.distance{
+  font-size: .85rem;
 }

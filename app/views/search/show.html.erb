@@ -25,6 +25,11 @@
    <div class="section one mapcontainer">
      
       <div class="medium-9 column nopad-left-right">
+        <div class="choice-toggle">
+
+        <input id="choice-providers" type="checkbox" name="choice-act" value="choice">
+            <label for="choice-act">Show Choice Act Providers</label>
+        </div>
       <div id='map'></div>
 
      </div>
@@ -53,20 +58,20 @@
     <aside class="top-off-canvas-menu refinements-panel">
       
         <div class="text-input nowrap">
-           <input id="search_location" type="text" placeholder="Search for a location">
+           <input id="search_location" type="text" placeholder="Search for a New Address">
         </div>
         <select id="administration_selection">
           <option value="Health">Health</option>
           <option value="Benefits">Benefits</option>
           <option value="Cemetaries">Cemetaries</option>
         </select> 
-        <select multiple id="service_level_1_selection">
-          <option value="All" selected>All</option>
+        <select id="service_level_1_selection">
+          <option value="All Specialties" selected>All Specialties</option>
         </select>
         <select multiple id="service_level_2_selection">
           <option value="All" selected>All</option>
         </select>
-        <button type="button" id="search" class="btn btn-sm btn-tab">Search</button>
+        <button type="button" id="search" class="refine-button btn btn-sm btn-tab">Apply Filters</button>
  </aside>  
     
       </div>
