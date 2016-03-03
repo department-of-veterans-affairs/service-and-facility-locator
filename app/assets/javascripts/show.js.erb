@@ -2,7 +2,7 @@ $( document ).ready(function() {
   L.mapbox.accessToken = 'pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
   var geocoder = L.mapbox.geocoder('mapbox.places');
   var map = L.mapbox.map('map', 'mapbox.streets')
-        .setView([80, -74.50], 5);
+        .setView([38.8, -95.50], 5);
   map.scrollWheelZoom.disable();
 
   var parameters = {};
@@ -76,10 +76,8 @@ $( document ).ready(function() {
     // The geocoder can return an area, like a city, or a
     // point, like an address. Here we handle both cases,
     // by fitting the map bounds to an area or zooming to a point.
-    if (data.lbounds) {
-        map.fitBounds(data.lbounds);
-    } else if (data.latlng) {
-        map.setView([data.latlng[0], data.latlng[1]], 13);
+    if (data.latlng) {
+        map.setView([data.latlng[0], data.latlng[1]], 10);
     }
   } 
 
@@ -89,15 +87,21 @@ $( document ).ready(function() {
   
   // Get user location from HTML5 location API if available
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(recenter, function() {});
+    navigator.geolocation.getCurrentPosition(recenter);
   }
   
   function recenter(position) {
-    map.setView({
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    });
-    map.setZoom(12);
+    map.setView([
+      position.coords.latitude,
+      position.coords.longitude
+    ],10);
+    if(search_location.value == "") {
+      geocoder.reverseQuery([position.coords.longitude, position.coords.latitude], fill_location_search_box);
+    }
+  }
+  
+  function fill_location_search_box(err, data) {
+    search_location.value = data.features[0].place_name
   }
   
   //plot data on the map
