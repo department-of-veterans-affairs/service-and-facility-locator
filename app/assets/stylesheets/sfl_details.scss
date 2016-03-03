@@ -1,3 +1,5 @@
+$off-canvas-width: rem-calc(600);
+
 body {
   color: $black;
 }
@@ -85,20 +87,36 @@ table td {
 
 .active-crumb {
   padding: .1;
-  font-size: .75rem;
+  font-size: .60rem;
+}
+
+.move-left .off-canvas-menu {
+  width: 400px;
+}
+
+.right-off-canvas-menu {
+  margin-left: 300px;
 }
 
 .refinements-panel {
-  background-color: $color-gray-lightest;
-  max-width: 300px;
-  padding: 2rem;
+  background-color: $white;
+  min-height: 500px;
 }
 
 .facilities-list {
   height: 100%;
+  min-height: 450px;
   max-height: 590px;
   overflow-y: scroll;
   background-color: $white;
+  li {
+    list-style: none;
+    margin-bottom: .75rem;
+    padding-bottom: .75rem;
+    border-bottom-style: solid;
+    border-bottom-color: $color-gray-lightest;
+    border-bottom-width: 1px;
+  }
 }
 
 .search-results-list {
