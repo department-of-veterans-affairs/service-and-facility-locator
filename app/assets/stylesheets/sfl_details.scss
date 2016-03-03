@@ -1,4 +1,5 @@
-body, body.home {
+body,
+body.home {
   color: $black;
 }
 
@@ -15,7 +16,7 @@ body, body.home {
   color: $black;
 }
 
-.facility-detail-label{
+.facility-detail-label {
   width: 50%;
   line-height: 1.6;
 }
@@ -25,7 +26,7 @@ table {
   padding: .25rem 0;
 }
 
-table tr th, 
+table tr th,
 table tr td {
   border: 0;
   padding: 0;
@@ -66,7 +67,8 @@ table tr td {
 .panel-list a,
 .usa-button:visited,
 .usa-button-primary:visited,
-.panel-list a:visited, button,
+.panel-list a:visited,
+button,
 [type="button"],
 [type="submit"],
 [type="reset"],
@@ -79,7 +81,7 @@ a.usa-button {
   text-align: center;
 }
 
-.hours_note{
+.hours_note {
   padding-top: 1rem;
 }
 
@@ -87,12 +89,14 @@ a.usa-button {
   padding: 1rem;
   height: 110px;
 }
+
 .breadcrumb-buttons {
   .button,
-  button{
-  padding: .25rem;
+  button {
+    padding: .25rem;
+  }
 }
-}
+
 .active-crumb {
   padding: .1;
   font-size: .75rem;
@@ -108,7 +112,7 @@ a.usa-button {
   height: 100%;
   max-height: 590px;
   overflow-y: scroll;
-  background-color:rgba(255, 255, 255, 0.85)
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .search-results-list {
