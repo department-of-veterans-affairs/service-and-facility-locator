@@ -2,6 +2,15 @@ $off-canvas-width: rem-calc(600);
 
 body {
   color: $black;
+  margin:0; 
+  padding:0;
+}
+#map { 
+  height:700px; 
+  width:100%;
+  @media(max-width: $small-screen) {
+    height:300px;
+  }
 }
 
 .section.one {
@@ -62,6 +71,9 @@ table td {
   position: fixed;
   padding: 0;
   z-index: 9999;
+  @media(max-width: $small-screen) {
+    top: 0px !important;
+  }
 }
 
 .text-center {
@@ -87,6 +99,7 @@ table td {
 .active-crumb {
   padding: .1;
   font-size: .60rem;
+  max-width: 75px;
 }
 
 .top-off-canvas-menu {
@@ -151,4 +164,24 @@ table td {
 
 .distance {
   font-size: .85rem;
+}
+
+.facility-name {
+    @media(max-width: $small-screen) {
+      font-size: 1.75rem;
+  }
+}
+
+.column1 {
+  @include grid-column($pull:4);
+  @media(max-width: $small-screen) {
+    @include grid-column($pull:0);
+  }
+}
+.details-map {
+  padding-bottom: 1rem;
+  @include grid-column($push:8);
+    @media(max-width: $small-screen) {
+    @include grid-column($push:0);
+  }
 }
