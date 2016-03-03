@@ -22,7 +22,7 @@
   
    <div class="section one mapcontainer">
 
-     <div class="small-4 column">
+     <div class="medium-3 column">
        
        <div class="search-info"><!---Start Search Information -->
           <div class="text-input nowrap">
@@ -31,26 +31,20 @@
             <button class="usa-button-outline active-crumb">Health&nbsp;x</button>
             <button class="usa-button-outline active-crumb">Service 1&nbsp;x</button>
             <button class="usa-button-outline active-crumb">Service 2&nbsp;x</button>
-<button class="usa-button active-crumb" data-options="align:right" data-dropdown="drop">Refine Results</button>
+<button class="right-off-canvas-toggle usa-button active-crumb">Refine Results</button>
            </div>
           
        </div><!---End Search Information -->
        
-       
+<div class="off-canvas-wrap" data-offcanvas>
+  <div class="inner-wrap">
+    
        <!---Start Facilities List -->
        <div class="facilities-list">
         <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
          </div><!---End Facilities List -->
-     </div><!-- End left Column -->
-     
-     <div class="small-8 column nopad-left-right">
-      <div id='map'></div>
-
-     </div>
-
-
-<div id="drop" class="[tiny small medium large content]f-dropdown" data-dropdown-content>
-    <div class="refinements-panel">
+    <aside class="right-off-canvas-menu refinements-panel">
+      
         <div class="text-input nowrap">
            <input id="search_location" type="text" placeholder="Search for a location">
         </div>
@@ -66,6 +60,17 @@
           <option value="All" selected>All</option>
         </select>
         <button type="button" id="search" class="btn btn-sm btn-tab">Search</button>
+ </aside>  
+    
       </div>
+</div>
+     </div><!-- End left Column -->
+     
+     <div class="medium-9 column nopad-left-right">
+      <div id='map'></div>
+
      </div>
+     
+     
+     
   </div><!-- End Section One -->
