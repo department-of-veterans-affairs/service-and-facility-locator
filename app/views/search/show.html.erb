@@ -21,6 +21,11 @@
   <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
   
    <div class="section one mapcontainer">
+     
+      <div class="medium-9 column nopad-left-right">
+      <div id='map'></div>
+
+     </div>
 
      <div class="medium-3 column">
        
@@ -31,7 +36,7 @@
             <button class="usa-button-outline active-crumb">Health&nbsp;x</button>
             <button class="usa-button-outline active-crumb">Service 1&nbsp;x</button>
             <button class="usa-button-outline active-crumb">Service 2&nbsp;x</button>
-<button class="right-off-canvas-toggle usa-button active-crumb">Refine Results</button>
+<button class="top-off-canvas-toggle usa-button active-crumb">Refine Results</button>
            </div>
           
        </div><!---End Search Information -->
@@ -43,7 +48,7 @@
        <div class="facilities-list">
         <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
          </div><!---End Facilities List -->
-    <aside class="right-off-canvas-menu refinements-panel">
+    <aside class="top-off-canvas-menu refinements-panel">
       
         <div class="text-input nowrap">
            <input id="search_location" type="text" placeholder="Search for a location">
@@ -66,10 +71,7 @@
 </div>
      </div><!-- End left Column -->
      
-     <div class="medium-9 column nopad-left-right">
-      <div id='map'></div>
 
-     </div>
      
      
      

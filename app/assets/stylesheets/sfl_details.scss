@@ -9,8 +9,7 @@ body {
 }
 
 .nopad-left-right {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0 0 2rem 0;
 }
 
 .facility-details {
@@ -117,6 +116,10 @@ table td {
     border-bottom-color: $color-gray-lightest;
     border-bottom-width: 1px;
   }
+}
+
+.facilityTitle{
+  font-weight: 700;
 }
 
 .search-results-list {
