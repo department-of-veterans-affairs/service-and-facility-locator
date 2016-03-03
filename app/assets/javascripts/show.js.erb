@@ -7,6 +7,9 @@ $( document ).ready(function() {
 
   var parameters = {};
   var URL = window.location.href;
+  var markers = [];
+  var markerData = [];
+  var markers_on_map = false;
 
   if (URL.includes("administration")) {
     var administration = get_string_from_url(URL, "administration");
@@ -85,10 +88,10 @@ $( document ).ready(function() {
   
   
   // Get user location from HTML5 location API if available
-/*  if (navigator.geolocation) {
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(recenter, function() {});
-  }*/
-
+  }
+  
   function recenter(position) {
     map.setView({
       lat: position.coords.latitude,
@@ -96,47 +99,34 @@ $( document ).ready(function() {
     });
     map.setZoom(12);
   }
-
+  
   //plot data on the map
   function plotData(data, map){
     //remove points from map
-    
-    //remove facilities from list
-    $("#facilitiesList").html("");
-    
    for (var i = 0; i < data.length; i++) {
      if (isNaN(parseFloat(data[i]['longitude'])) || isNaN(parseFloat(data[i]['latitude']))) {
        continue;
      }
-     
-      L.mapbox.featureLayer({
-        // this feature is in the GeoJSON format: see geojson.org
-        // for the full specification
-        type: 'Feature',
-        geometry: {
-            type: 'Point',
-            // coordinates here are in longitude, latitude order because
-            // x, y is the standard for GeoJSON and many formats
-            coordinates: [ data[i]['longitude'], data[i]['latitude']]
-        },
-        properties: {
-          title: data[i]['location_descriptive_name_common_name'],
-          radius: 6,
-          fillColor: 'white',
-          color: '#1B384E',
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 1
-        }
-      }).addTo(map);
       
-      
-      // also add to the facilities list
-      var li = "<li data-sid=" + data[i]['facility_id']+ ">" +
-                    facilityHTML(data[i]) + 
-                    "</li>";
-      $("#facilitiesList").append(li);
+    var marker = L.marker(new L.LatLng(data[i]['latitude'], data[i]['longitude']), {
+                  title: data[i]['location_descriptive_name_common_name'],
+                  radius: 6,
+                  fillColor: 'white',
+                  color: '#1B384E',
+                  weight: 2,
+                  opacity: 1,
+                  fillOpacity: 1
+              });
+      var content = '<h3>' + data[i]['location_descriptive_name_common_name'] + 
+            '</h3>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'];
+      marker.bindPopup(content);
+      marker.addTo(map);
+      markers.push(marker);
+      markerData.push(data[i]);
     }
+    markers_on_map = true;
+    update_facility_list();
+    
   }
   
   function facilityHTML(facility) {
@@ -144,8 +134,29 @@ $( document ).ready(function() {
     
     return title + "<br>\nPhone Number: " +
       facility.station_phone_number + "<br>\n"
-      + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">website</a><br>\n';
+      + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
   }
+  
+  map.on('move', function() {
+    update_facility_list();
+  });
+  
+  function update_facility_list() {
+    $("#facilitiesList").html("");
+    if (markers_on_map) {
+      var bounds = map.getBounds();
+      
+      for(var i = 0; i < markerData.length; i++) {
+        if (bounds.contains(markers[i].getLatLng())) {
+          var li = "<li data-sid=" + markerData[i]['facility_id']+ ">" +
+                        facilityHTML(markerData[i]) + 
+                        "</li>";
+          $("#facilitiesList").append(li);
+        }
+      }
+    }
+  }
+  
 });
 
 function get_string_from_url(URL, substring_to_find) {
