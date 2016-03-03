@@ -10,6 +10,8 @@ $( document ).ready(function() {
   var markers = [];
   var markerData = [];
   var markers_on_map = false;
+  var shown = [];
+  var shownIndex = 0; 
 
   if (URL.includes("administration")) {
     var administration = get_string_from_url(URL, "administration");
@@ -141,27 +143,56 @@ $( document ).ready(function() {
       + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
   }
   
-  map.on('move', function() {
+  map.on('moveend', function() {
     update_facility_list();
   });
   
   function update_facility_list() {
     $("#facilitiesList").html("");
+    shown = [];
+    shownIndex = 0;
     if (markers_on_map) {
       var bounds = map.getBounds();
       
+      var directions_URL_beginning = 'https://api.tiles.mapbox.com/v4/directions/mapbox.driving/';
+      var directions_URL_ending = '.json?access_token=' + L.mapbox.accessToken;
+          
+          
       for(var i = 0; i < markerData.length; i++) {
         if (bounds.contains(markers[i].getLatLng())) {
-          var li = "<li data-sid=" + markerData[i]['facility_id']+ ">" +
-                        facilityHTML(markerData[i]) + 
-                        "</li>";
-          $("#facilitiesList").append(li);
+          var center = map.getCenter();
+          var distance;
+          shown.push(markerData[i]);
+          
+          var directionsUrl = directions_URL_beginning + center.lng + ',' + center.lat + ';' +
+                markerData[i]['longitude'] + ',' +  markerData[i]['latitude'] + directions_URL_ending;
+          $.ajax({
+            url: directionsUrl,
+            type: 'GET',
+            success: function(data) { list_facilities(data); }
+          });
         }
       }
     }
   }
   
+  function list_facilities(data) {
+    distance = meters_to_miles(data.routes[0].distance);
+    var li = "<li>" + facilityHTML(shown[shownIndex])  + 
+                  distance + " miles</li>";
+    $("#facilitiesList").append(li);
+    shownIndex++;
+  }
 });
+
+// Convert meters to miles
+function meters_to_miles(meters) {
+  return round10(meters / 1609.344);
+}
+
+function round10(n) {
+    return Math.round(n*10) / 10;
+  }
 
 function get_string_from_url(URL, substring_to_find) {
   var string_to_return = URL.substring(URL.indexOf(substring_to_find+"=") + substring_to_find.length + 1);
