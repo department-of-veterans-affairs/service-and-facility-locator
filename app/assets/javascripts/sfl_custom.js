@@ -1,0 +1,1 @@
+$(document).ready(function(){$('#index-modal').foundation('reveal', 'open');});

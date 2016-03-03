@@ -1,5 +1,25 @@
+body {
+  color: $black;
+}
+
+.section.one {
+  padding: 0;
+}
+
+.nopad-left-right {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .facility-details {
   color: $black;
+}
+
+.facility-detail-label {
+  width: 50%;
+  line-height: 1.6;
+  border: 0;
+  padding: 0;
 }
 
 table {
@@ -7,12 +27,80 @@ table {
   padding: .25rem 0;
 }
 
-table th,
+table tr,
 table td {
   border: 0;
+  padding: 0;
 }
 
 .td-hyphen {
   padding: .25rem 1rem .25rem .25rem;
 }
 
+.l1-services {
+  font-weight: 800;
+  font-size: .85rem;
+}
+
+.l2-service {
+  color: $black;
+  font-size: .85rem;
+  list-style: none;
+}
+
+.services-ul {
+  margin-bottom: 0;
+}
+
+.service-block {
+  margin-bottom: .5rem;
+}
+
+.reveal-modal {
+  top: 150px !important;
+  position: fixed;
+  padding: 0;
+  z-index: 9999;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hours_note {
+  padding: 1rem 0;
+}
+
+.search-info {
+  padding: 1rem;
+  height: 110px;
+}
+
+.breadcrumb-buttons {
+  .button,
+  button {
+    padding: .25rem;
+  }
+}
+
+.active-crumb {
+  padding: .1;
+  font-size: .75rem;
+}
+
+.refinements-panel {
+  background-color: $color-gray-lightest;
+  max-width: 300px;
+  padding: 2rem;
+}
+
+.facilities-list {
+  height: 100%;
+  max-height: 590px;
+  overflow-y: scroll;
+  background-color: $white;
+}
+
+.search-results-list {
+  list-style: none;
+}

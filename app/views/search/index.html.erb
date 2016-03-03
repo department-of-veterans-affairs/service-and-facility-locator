@@ -14,16 +14,18 @@
   
   <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
   
-   <div class="section one">
-      <div class="primary">
+   <div class="section one mapcontainer">
+      <div id="index-modal" class="reveal-modal tiny primary" data-reveal data-options="close_on_background_click:false; close_on_esc: false;">
 
+        <div class="small-10 small-centered column text-center">
+          <h3>A Catchy Headline</h3>
+          <p>Some introductory and instructional copy can go here. Maybe two lines of it?</p>
 
-        <div class="small-12 medium-9 columns text-input nowrap">
-           <input id="search_location" type="text" placeholder="Search for a location">
-        </div>
-        
-        
+        <div class="text-input nowrap">
+           <input id="search_location" type="text" placeholder="Enter Street, City, State or Zip">
+        </div>  
         <select id="administration_selection">
           <option disabled selected>Select Service Type</option>
           <option value="Health">Health</option>
@@ -31,18 +33,23 @@
           <option value="Cemetaries">Cemetaries</option>
         </select>
         <br>
-        
         <select multiple id="service_level_1_selection">
+          <option value="All" selected>All</option>
+          </select>
+        <select multiple id="service_level_2_selection" class="service-multi">
           <option value="All" selected>All</option>
         </select>
 
-        <select multiple id="service_level_2_selection">
-          <option value="All" selected>All</option>
-        </select>
-        <br>
-        <button type="button" id="search" class="btn btn-sm btn-tab" disabled="true">Search</button>
-    </div> 
+        <button type="button" id="search" class="btn btn-sm btn-tab">Search</button>
+    </div>
+     
+    </div>
+    <style>
+      body { margin:0; padding:0; }
+      #map { height:700px; width:100%; }
+    </style>
     <div id='map'></div>
+     
   </div>
 </div>
 
