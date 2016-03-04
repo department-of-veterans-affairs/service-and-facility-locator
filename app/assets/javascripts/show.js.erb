@@ -127,9 +127,17 @@ $( document ).ready(function() {
       if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
         data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
       }
-              
+                   
+      var driving_directions_url = "https://www.google.com/maps/dir/" + $('#search_location').val() + 
+            "/" + data[i]['street_address'] + " ";
+      if (data[i]['suite_building_number'] != null) {
+        driving_directions_url += data[i]['suite_building_number'] + " ";
+      }
+      driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
       var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
-            '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + '">Facility Details</a>  |  <a href="#">Driving Directions</a><br>\n';
+            '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + 
+            '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
+            '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
       marker.bindPopup(content);
       marker.addTo(map);
       markers.push(marker);
