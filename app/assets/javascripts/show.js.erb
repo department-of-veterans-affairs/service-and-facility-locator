@@ -134,6 +134,9 @@ $( document ).ready(function() {
       
     var marker = L.marker(new L.LatLng(data[i]['latitude'], data[i]['longitude']));
     
+    
+    
+    
       var phone_number = data[i]['station_phone_number'];
       if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
         data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
@@ -150,8 +153,9 @@ $( document ).ready(function() {
             '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
             //'?Location=' + $('#search_location').val() + 
             '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
-      marker.bindPopup(content);
-      marker.addTo(map);
+      
+      var geojson = create_marker(data[i], content);
+      var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
       markerData.push(data[i]);
     }
     markers_on_map = true;
@@ -159,23 +163,30 @@ $( document ).ready(function() {
     
   }
   
-  function create_marker (facility_info) {
-    var marker_color;
-    if(facility_info['classification'] == "VA Medical Center (VAMC)") {
-      marker_color = 'red';
+  function create_marker(facility, content) {
+    var color = "#FF00FF";
+    if(facility['classification'] == "VA Medical Center (VAMC)") {
+      color = "#0000FF";
+    } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
+      color = "#FFFF00";
+    } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
+      color = "#00FF00";
     }
-    return L.mapbox.featureLayer({
-       type: 'Feature',
-       geometry: {
-           type: 'Point',
-           coordinates: [ facility_info['longitude'], facility_info['latitude']]
-       },
-       properties: {
-         title: facility_info['location_descriptive_name_common_name'],
-         color: "blue",
-       }
-     });
-   }
+    
+    return [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [facility['longitude'], facility['latitude']]
+      },
+      "properties": {
+        "title": content,
+        "marker-color": color,
+        "marker-size": "medium"
+      }
+    }];
+  }
   
   function facilityHTML(facility) {
     if(facility.station_phone_number != undefined) {
