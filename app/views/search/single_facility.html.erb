@@ -15,11 +15,17 @@
 <div class="section one">
     <div class="row">
         <div class="small-12 column">
-            <h2><%= @facility.official_station_name %></h2>
+            <h2 class="facility-name"><%= @facility.official_station_name %></h2>
         </div>
     </div>
     <div class="row">
-  <div class="medium-4 columns">
+          <div class="medium-4 columns details-map">
+            <h6>How to Get Here</h6>
+        <a target="_blank" href="https://www.google.com/maps/dir//<%= @facility.street_address %> <%= @facility.suite_building_number %> <%= @facility.city %> <%= @facility.state %> <%= @facility.zip_code %>">Driving Directions</a>
+        <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.longitude %>,<%= @facility.latitude %>)/<%= @facility.longitude %>,<%= @facility.latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
+    </div>
+      
+  <div class="medium-4 columns column1">
       <h6>Facility Details</h6>
       <h5>Street Address:</h5>
       <p class="facility-details">
@@ -30,7 +36,8 @@
     <!-- <p>No Suite Number</p> -->
         <% end %>
           <%= @facility.city %>, <%= @facility.state %> 
-          <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%>
+        <%= @facility.zip_code.length < 5 ? "0" + @facility.zip_code.to_s : @facility.zip_code%></p>
+    <p><a href="#">Facility Website</a></p>
         <h5>Phone:</h5>
       <table>
        <tr> 
@@ -90,7 +97,7 @@
           </tr>
        </table>
     </div>
-    <div class="medium-4 columns clearfix">
+    <div class="medium-4 columns clearfix column1">
     <h6>Services at this Facility</h6>
         <% @services_hash.each do | service_level_1, service_level_2_array | %>
       <div class="service-block">
@@ -106,9 +113,6 @@
     </div>
 
 
-    <div class="medium-4 columns">
-        <h6><a target="_blank" href="https://www.google.com/maps/dir//<%= @facility.street_address %> <%= @facility.suite_building_number %> <%= @facility.city %> <%= @facility.state %> <%= @facility.zip_code %>">Driving Directions</a></h6>
-        <img src="https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(<%= @facility.longitude %>,<%= @facility.latitude %>)/<%= @facility.longitude %>,<%= @facility.latitude %>,13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g" alt="Static map image">
-    </div>
+
     </div><!--EndRow-->
   </div><!--EndSection-->

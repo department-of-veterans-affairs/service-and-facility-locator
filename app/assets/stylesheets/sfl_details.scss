@@ -2,6 +2,15 @@ $off-canvas-width: rem-calc(600);
 
 body {
   color: $black;
+  margin:0; 
+  padding:0;
+}
+#map { 
+  height:700px; 
+  width:100%;
+  @media(max-width: $small-screen) {
+    height:300px;
+  }
 }
 
 .section.one {
@@ -9,8 +18,7 @@ body {
 }
 
 .nopad-left-right {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0 0 2rem 0;
 }
 
 .facility-details {
@@ -63,6 +71,9 @@ table td {
   position: fixed;
   padding: 0;
   z-index: 9999;
+  @media(max-width: $small-screen) {
+    top: 0px !important;
+  }
 }
 
 .text-center {
@@ -88,19 +99,16 @@ table td {
 .active-crumb {
   padding: .1;
   font-size: .60rem;
+  max-width: 75px;
 }
 
-.move-left .off-canvas-menu {
-  width: 400px;
-}
-
-.right-off-canvas-menu {
-  margin-left: 300px;
+.top-off-canvas-menu {
+  width: 80%;
 }
 
 .refinements-panel {
   background-color: $white;
-  min-height: 500px;
+  margin-left: 1rem;
 }
 
 .facilities-list {
@@ -119,6 +127,61 @@ table td {
   }
 }
 
+.facilityTitle {
+  font-weight: 700;
+}
+
+.choice-toggle {
+  position: absolute;
+  height: 45px;
+  top: 15px;
+  right: 15px;
+  z-index: 99999999999;
+  background: rgba($white, 0.85);
+  padding: .5rem;
+}
+
 .search-results-list {
   list-style: none;
+}
+
+.refine-button {
+  padding: .25rem;
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+.bubble-title {
+  font-size: 1rem;
+  color: $color-primary-darkest;
+  font-weight: 700;
+}
+
+.address {
+  font-size: .85rem;
+  line-height: 1rem;
+}
+
+.distance {
+  font-size: .85rem;
+}
+
+.facility-name {
+    @media(max-width: $small-screen) {
+      font-size: 1.75rem;
+  }
+}
+
+.column1 {
+  @include grid-column($pull:4);
+  @media(max-width: $small-screen) {
+    @include grid-column($pull:0);
+  }
+}
+.details-map {
+  padding-bottom: 1rem;
+  @include grid-column($push:8);
+    @media(max-width: $small-screen) {
+    @include grid-column($push:0);
+  }
 }

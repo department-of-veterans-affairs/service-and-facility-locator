@@ -123,8 +123,8 @@ $( document ).ready(function() {
                   opacity: 1,
                   fillOpacity: 1
               });
-      var content = '<h3>' + data[i]['location_descriptive_name_common_name'] + 
-            '</h3>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'];
+      var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
+            '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + '">Facility Details</a>  |  <a href="#">Driving Directions</a><br>\n';
       marker.bindPopup(content);
       marker.addTo(map);
       markers.push(marker);
@@ -138,11 +138,11 @@ $( document ).ready(function() {
   function facilityHTML(facility) {
     var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
     
-    return title + "<br>\nPhone Number: " +
+    return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
       facility.station_phone_number + "<br>\n"
       + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
   }
-  
+
   map.on('moveend', function() {
     update_facility_list();
   });
@@ -179,7 +179,7 @@ $( document ).ready(function() {
   function list_facilities(data) {
     distance = meters_to_miles(data.routes[0].distance);
     var li = "<li>" + facilityHTML(shown[shownIndex])  + 
-                  distance + " miles</li>";
+                  '<span class="distance">Driving Distance: ' + distance + " miles</span></li>";
     $("#facilitiesList").append(li);
     shownIndex++;
   }
