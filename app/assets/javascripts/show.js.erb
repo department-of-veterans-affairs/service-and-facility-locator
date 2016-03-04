@@ -53,11 +53,11 @@ $( document ).ready(function() {
     $('#service_level_2_selection').val(service_level_2);
     parameters["service_level_2"] = service_level_2;
   }
-  
-  
+
   if (URL.includes("Location=")) {
-    search_location.value = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ');
-    geocoder.query(search_location.value, showMap);
+    var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
+    $('#search_location').val(location);
+    geocoder.query(location, showMap);
   }
   
   $.ajax({
@@ -123,6 +123,11 @@ $( document ).ready(function() {
                   opacity: 1,
                   fillOpacity: 1
               });
+      var phone_number = data[i]['station_phone_number'];
+      if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
+        data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
+      }
+              
       var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
             '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + '">Facility Details</a>  |  <a href="#">Driving Directions</a><br>\n';
       marker.bindPopup(content);
@@ -136,11 +141,13 @@ $( document ).ready(function() {
   }
   
   function facilityHTML(facility) {
-    var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
-    
-    return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
-      facility.station_phone_number + "<br>\n"
-      + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
+    if(facility.station_phone_number != undefined) {
+      var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
+      
+      return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
+        facility.station_phone_number + "<br>\n"
+        + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
+    }
   }
 
   map.on('moveend', function() {
