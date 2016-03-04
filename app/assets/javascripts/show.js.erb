@@ -145,7 +145,6 @@ $( document ).ready(function() {
     var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
           '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + 
           '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
-          //'?Location=' + $('#search_location').val() + 
           '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
     
     var geojson = create_marker(data[i], content);
