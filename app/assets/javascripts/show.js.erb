@@ -96,7 +96,7 @@ $( document ).ready(function() {
       },
       "properties": {
         "title": "Search Location",
-        "marker-color": "#000000",
+        "marker-color": "#e31c3d",
         "marker-size": "small",
         "marker-symbol": "star"
       }
@@ -164,13 +164,13 @@ $( document ).ready(function() {
   }
   
   function create_marker(facility, content) {
-    var color = "#FF00FF";
+    var color = "#112e51";
     if(facility['classification'] == "VA Medical Center (VAMC)") {
-      color = "#0000FF";
+      color = "#0071bc";
     } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
-      color = "#FFFF00";
+      color = "#205493";
     } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
-      color = "#00FF00";
+      color = "#112e51";
     }
     
     return [
@@ -183,7 +183,8 @@ $( document ).ready(function() {
       "properties": {
         "title": content,
         "marker-color": color,
-        "marker-size": "medium"
+        "marker-size": "medium",
+        "marker-symbol": "hospital"
       }
     }];
   }
@@ -194,9 +195,9 @@ $( document ).ready(function() {
       
       return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
         facility.station_phone_number + "<br>\n"
-        + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + 
-          //'?Location=' + $('#search_location').val() + 
-          '">Facility Details</a><br>\n';
+        + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
+//          '?Location=' + $('#search_location').val() + 
+          
     }
   }
 
