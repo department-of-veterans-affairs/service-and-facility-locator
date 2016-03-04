@@ -13,6 +13,14 @@ $( document ).ready(function() {
   var shownIndex = 0; 
   search_center_lat = -1;
   search_center_lng = -1;
+  
+  if (URL.includes("Location=")) {
+    var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
+    $('#search_location').val(location);
+    geocoder.query(location, showMap);
+  } else if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(recenter);
+  }
 
   if (URL.includes("administration")) {
     var administration = get_string_from_url(URL, "administration");
@@ -53,14 +61,6 @@ $( document ).ready(function() {
     var service_level_2 = get_string_from_url(URL, "service_level_2")
     $('#service_level_2_selection').val(service_level_2);
     parameters["service_level_2"] = service_level_2;
-  }
-
-  if (URL.includes("Location=")) {
-    var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
-    $('#search_location').val(location);
-    geocoder.query(location, showMap);
-  } else if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(recenter);
   }
   
   $.ajax({
@@ -107,9 +107,6 @@ $( document ).ready(function() {
   // Clear the facilities list
   $("#facilitiesList").html("");
   
-  
-
-  
   function recenter(position) {
     map.setView([
       position.coords.latitude,
@@ -133,35 +130,32 @@ $( document ).ready(function() {
      }
       
     var marker = L.marker(new L.LatLng(data[i]['latitude'], data[i]['longitude']));
-    
-    
-    
-    
-      var phone_number = data[i]['station_phone_number'];
-      if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
-        data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
-      }
-                   
-      var driving_directions_url = "https://www.google.com/maps/dir/" + $('#search_location').val() + 
-            "/" + data[i]['street_address'] + " ";
-      if (data[i]['suite_building_number'] != null) {
-        driving_directions_url += data[i]['suite_building_number'] + " ";
-      }
-      driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
-      var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
-            '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + 
-            '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
-            //'?Location=' + $('#search_location').val() + 
-            '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
       
-      var geojson = create_marker(data[i], content);
-      var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
-      markerData.push(data[i]);
+    var phone_number = data[i]['station_phone_number'];
+    if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
+      data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
     }
-    markers_on_map = true;
-    update_facility_list();
+                 
+    var driving_directions_url = "https://www.google.com/maps/dir/" + $('#search_location').val() + 
+          "/" + data[i]['street_address'] + " ";
+    if (data[i]['suite_building_number'] != null) {
+      driving_directions_url += data[i]['suite_building_number'] + " ";
+    }
+    driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
+    var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
+          '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + 
+          '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
+          //'?Location=' + $('#search_location').val() + 
+          '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
     
+    var geojson = create_marker(data[i], content);
+    var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
+    markerData.push(data[i]);
   }
+  markers_on_map = true;
+  update_facility_list();
+    
+}
   
   function create_marker(facility, content) {
     var color = "#112e51";
@@ -196,8 +190,6 @@ $( document ).ready(function() {
       return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
         facility.station_phone_number + "<br>\n"
         + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
-//          '?Location=' + $('#search_location').val() + 
-          
     }
   }
 
@@ -228,9 +220,6 @@ $( document ).ready(function() {
           } else {
             directionsUrl += search_center_lng + ',' + search_center_lat;
           }
-          // if(markerData[i]['location_descriptive_name_common_name'] == "Glen Burnie") {
-          //   debugger;
-          // }
           directionsUrl += ';' + markerData[i]['longitude'] + ',' +  markerData[i]['latitude'] + directions_URL_ending;
           $.ajax({
             url: directionsUrl,
