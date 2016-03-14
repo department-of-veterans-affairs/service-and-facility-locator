@@ -188,3 +188,64 @@ table td {
     @include grid-column($push:0);
   }
 }
+
+.tabs {
+    width:100%;
+    display:inline-block;
+  ul{
+    margin-left: 0 !important;
+    margin-bottom: 1rem !important;
+  }
+}
+ 
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+        border-bottom: 1px solid $color-gray-lightest;
+    }
+ 
+    .tab-links li {
+        float:left;
+        list-style:none;
+       &:first-child{
+        margin-left: .5rem;
+      }
+    }
+ 
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            background: $color-gray-lightest;
+            transition:all linear 0.15s;
+          border: 1px solid $color-gray-lightest;
+        }
+ 
+        .tab-links a:hover {
+            background: $color-gray-lightest;
+            text-decoration:none;
+          border: 1px solid $color-gray-lightest;
+        }
+ 
+    li.active a, li.active a:hover {
+        background:#fff;
+        color:$color-gray-dark;
+        border: 1px solid $color-gray-lightest;
+    }
+ 
+    /*----- Content of Tabs -----*/
+
+.tab-content{
+  ul{
+        margin-left: 1rem !important;
+  }
+}
+        .tab {
+            display:none;
+        }
+ 
+        .tab.active {
+            display:block;
+        }
