@@ -61,16 +61,21 @@ function fill_service_level(data, html_element) {
   opt.innerHTML = "All";
   opt.value = "All";
   fragment.appendChild(opt);
-
+  var element_added = 0;
+  
   data.forEach(function(element, index) {
     if(element != null) {
       opt = document.createElement('option');
       opt.innerHTML = element;
       opt.value = element;
       fragment.appendChild(opt);
+      element_added = 1;
     }
   });
   sel.appendChild(fragment);
-  $('#' + html_element).show();
+  
+  if(element_added) {
+    $('#' + html_element).show();
+  }
   $('#' + html_element).val("All");
 }

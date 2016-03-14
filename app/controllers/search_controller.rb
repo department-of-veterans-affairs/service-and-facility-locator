@@ -20,25 +20,45 @@ class SearchController < ApplicationController
   end
 
   def get_facilities_by_service(params)
-    if !params[:service_level_2].nil?
-      facility_ids_that_match = Service.where(service_level_2:
-                                                  params[:service_level_2]).uniq.pluck(:facility_id)
-    else
-      facility_ids_that_match = Service.where(service_level_1:
-                                                  params[:service_level_1]).uniq.pluck(:facility_id)
-    end
-    Facility.where(facility_id: facility_ids_that_match)
+    #put debugger here and figure out why facilities are not showing up. 
+    if params[:administration] == "Benefits"
+      if !params[:service_level_2].nil?
+        facility_ids_that_match = VBAService.where(service_level_2:
+                                                    params[:service_level_2]).uniq.pluck(:facility_id)
+      else
+        facility_ids_that_match = VBAService.where(service_level_1:
+                                                    params[:service_level_1]).uniq.pluck(:facility_id)
+      end
+      VBAFacility.where(facility_id: facility_ids_that_match)
+    else  
+      if !params[:service_level_2].nil?
+        facility_ids_that_match = Service.where(service_level_2:
+                                                    params[:service_level_2]).uniq.pluck(:facility_id)
+      else
+        facility_ids_that_match = Service.where(service_level_1:
+                                                    params[:service_level_1]).uniq.pluck(:facility_id)
+      end
+      Facility.where(facility_id: facility_ids_that_match)
+    end  
   end
 
   def single_facility
     @facility = Facility.where(facility_id: params[:facility_id]).first
     services = Service.where(facility_id: params[:facility_id])
+    if @facility.nil?
+      @facility = VBAFacility.where(facility_id: params[:facility_id]).first
+      services = VBAService.where(facility_id: params[:facility_id])
+    end
     @services_hash = generate_hash_of_service_levels(services)
   end
 
   def service_types_by_administration
     # add in test for if health or benefits or NCA and redirect accordingly
-    @services = Service.all.pluck(:service_level_1).uniq
+    @services = if params[:administration] == "Benefits"
+                  VBAService.all.pluck(:service_level_1).uniq
+                else
+                  Service.all.pluck(:service_level_1).uniq
+                end
     render json: @services
   end
 

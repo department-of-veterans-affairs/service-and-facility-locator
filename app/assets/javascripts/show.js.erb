@@ -135,17 +135,28 @@ $( document ).ready(function() {
     if(phone_number != null && phone_number.charAt(phone_number.length - 1) == 'x') {
       data[i]['station_phone_number'] = phone_number.substring(0, phone_number.length - 1);
     }
+              
+    var starting_location = "";
+    if(search_center_lng == -1 || search_center_lat == -1) {
+      if(typeof center !== 'undefined')
+        starting_location += center.lat + ',' + center.lng;
+    } else {
+      starting_location += search_center_lat + ',' + search_center_lng;
+    }
                  
-    var driving_directions_url = "https://www.google.com/maps/dir/" + $('#search_location').val() + 
+    var driving_directions_url = "https://www.google.com/maps/dir/" + starting_location + 
           "/" + data[i]['street_address'] + " ";
     if (data[i]['suite_building_number'] != null) {
       driving_directions_url += data[i]['suite_building_number'] + " ";
     }
     driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
+    var classification = data[i]['classification'] == undefined ? "" : "<br>" + data[i]['classification'];
+    var href_link = URL.substring(0, URL.indexOf('/')) + "/single_facility/" + data[i]['facility_id'];
+    
     var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
-          '</span>' + '<br>' + data[i]['classification'] + '<br>' + data[i]['station_phone_number'] + 
-          '<br>' + '<a class="facilityLink" href="/single_facility/' + data[i]['facility_id'] + 
-          '">Facility Details</a>  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
+          '</span>' + classification + '<br>' + data[i]['station_phone_number'] + 
+          '<br><a class="facilityLink" href="' + href_link + '">Facility Details</a>' +
+          '  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
     
     var geojson = create_marker(data[i], content);
     var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
@@ -232,17 +243,44 @@ $( document ).ready(function() {
   
   function list_facilities(data) {
     var distance = meters_to_miles(data.routes[0].distance);
-    //;
-    for(var i = 0; i < shown.length; i++) {
-      if(Math.abs(data.destination.geometry.coordinates[0] - parseFloat(shown[i]['longitude'])) < 0.0001 &&
-            Math.abs(data.destination.geometry.coordinates[1] - parseFloat(shown[i]['latitude'])) < 0.0001) {
-        var li = "<li>" + facilityHTML(shown[i])  + 
-                      '<span class="distance">Driving Distance: ' + distance + " miles</span></li>";
-        $("#facilitiesList").append(li);
+    var j = find_min_distance(shown, data.destination.geometry.coordinates[1], data.destination.geometry.coordinates[0])
+    var li = "<li data-distance=" + distance + ">" + facilityHTML(shown[j])  + 
+                  '<span class="distance">Driving Distance: ' + distance + " miles</span></li>";            
+    var array = $("#facilitiesList").find("li");
+
+    for(var i = 0; i < array.length; i++) {
+      if(distance < parseFloat(array[i].dataset.distance)) {
         break;
       }
-    }
+    }    
+    if (i <= 0) {
+      $("#facilitiesList").prepend(li);
+    } else if(i >= array.length){
+      $("#facilitiesList").append(li);
+    } else {
+      $('#facilitiesList li:eq(' + i + ')').before(li); 
+    }   
+  }          
+  
+  function find_min_distance(shown, lat, lng) {
+    var min_index_thus_far = 0;
+    var min_lat_difference_thus_far = 
+        Math.abs(lat - parseFloat(shown[0]['latitude']));
+    var min_lng_difference_thus_far = 
+        Math.abs(lng - parseFloat(shown[0]['longitude']));
+    var min_total_difference = min_lat_difference_thus_far + min_lng_difference_thus_far;
+    for(var i = 1; i < shown.length; i++) {
+      tmp_lat_difference = Math.abs(lat - parseFloat(shown[i]['latitude']));
+      tmp_lng_difference = Math.abs(lng - parseFloat(shown[i]['longitude']));
+      tmp_total_difference = tmp_lat_difference + tmp_lng_difference;
+      if(tmp_total_difference < min_total_difference) {
+        min_index_thus_far = i;
+        min_total_difference = tmp_total_difference;
+      }
+    }  
+    return min_index_thus_far;
   }
+  
 });
 
 // Convert meters to miles
