@@ -14,7 +14,13 @@
 <div class="section one">
     <div class="row">
         <div class="small-12 column">
-            <h2 class="facility-name"><%= @facility.official_station_name %></h2>
+            <h2 class="facility-name">
+              <% if @facility.try(:official_station_name) %>
+                <%= @facility.official_station_name %><br>
+            <% else %>
+                <%= @facility.location_descriptive_name_common_name %>
+            <% end %>
+            </h2>
         </div>
     </div>
     <div class="row">
@@ -47,23 +53,31 @@
       <td class="facility-detail-label">Fax:</td><td class="facility-detail-label">
         <%= @facility.station_fax_number[-1, 1] == 'x' ? @facility.station_fax_number.chomp('x') : @facility.station_fax_number %></td>
         </tr>
+        <% if @facility.try(:after_hours_phone_number) %>
         <tr> 
       <td class="facility-detail-label">After Hours:</td><td class="facility-detail-label">
         <%= @facility.after_hours_phone_number[-1, 1] == 'x' ? @facility.after_hours_phone_number.chomp('x') : @facility.after_hours_phone_number %></td>
         </tr>
+        <% end %>
+        <% if @facility.try(:pharmacy_phone_number) %>
         <tr> 
       <td class="facility-detail-label">Pharmacy:</td><td class="facility-detail-label">
       <%= @facility.pharmacy_phone_number[-1, 1] == 'x' ? @facility.pharmacy_phone_number.chomp('x') : @facility.pharmacy_phone_number %></td>
       
         </tr>
+        <% end %>
+        <% if @facility.try(:enrollment_coordinator_phone_number) %>
         <tr> 
       <td class="facility-detail-label">Enrollment Coordinator:</td><td class="facility-detail-label">
         <%= @facility.enrollment_coordinator_phone_number[-1, 1] == 'x' ? @facility.enrollment_coordinator_phone_number.chomp('x') : @facility.enrollment_coordinator_phone_number %></td>
         </tr>
+        <% end %>
+        <% if @facility.try(:patient_advocate_phone_number) %>    
         <tr> 
       <td class="facility-detail-label">Patient Advocate:</td><td class="facility-detail-label">
         <%= @facility.patient_advocate_phone_number[-1, 1] == 'x' ? @facility.patient_advocate_phone_number.chomp('x') : @facility.patient_advocate_phone_number %></td>
           </tr>
+          <% end %>
         </table>
       <p></p>
  
