@@ -72,7 +72,10 @@ table td {
   padding: 0;
   z-index: 9999;
   @media(max-width: $small-screen) {
-    top: 0px !important;
+    top: 20px !important;
+    left: 20px;
+    width: 90%;
+    height: 400px;
   }
 }
 
