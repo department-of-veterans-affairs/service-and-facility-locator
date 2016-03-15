@@ -12,4 +12,10 @@ jQuery(document).ready(function() {
  
         e.preventDefault();
     });
+    
+    var URL = window.location.href;
+    if(URL.includes("VBA")) {
+      $('#tab1').removeClass('active');
+      $('#tab2').addClass('active');
+    }
 });
