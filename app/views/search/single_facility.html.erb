@@ -112,6 +112,14 @@
     </div>
     <div class="medium-4 columns clearfix column1">
     <h6>Services at this Facility</h6>
+        <div class="tabs">
+    <ul class="tab-links">
+        <li class="active"><a href="#tab1">Health</a></li>
+        <li><a href="#tab2">Benefits</a></li>
+    </ul>
+ 
+    <div class="tab-content">
+        <div id="tab1" class="tab active">
         <% @services_hash.each do | service_level_1, service_level_2_array | %>
       <div class="service-block">
               <span class="facility-details"><span class="l1-services"><%= service_level_1 %></span>
@@ -123,6 +131,16 @@
               <% end %>  
       </div>
       <% end %>
+        </div>
+ 
+        <div id="tab2" class="tab">
+            <p>Alex, the benefits services go here.</p>
+            
+        </div>
+ 
+
+    </div>
+</div>
     </div>
 
 
