@@ -175,9 +175,14 @@ $( document ).ready(function() {
     } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
       color = "#fdb81e";
     } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
-      color = "#e7f4e4";
+      color = "#fdb81e";
     }
     
+//    VBA - #2e8540 "marker-symbol": "town-hall"
+//    VAMC - #0071bc "marker-symbol": "hospital"
+//    Clinics - #112e51 "marker-symbol": "hospital"
+//    Extended care and Community Living - "marker-symbol": "building"
+//    
     return [
     {
       "type": "Feature",
