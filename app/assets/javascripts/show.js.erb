@@ -197,8 +197,8 @@ $( document ).ready(function() {
   function facilityHTML(facility) {
     if(facility.station_phone_number != undefined) {
       var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
-      
-      return title + '<br>\n<span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
+      var classification = facility.classification == undefined ? "" : "<br>" + facility.classification;
+      return title + classification + '<br><span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
         facility.station_phone_number + "<br>\n"
         + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
     }
