@@ -17,5 +17,8 @@ jQuery(document).ready(function() {
     if(URL.includes("VBA")) {
       $('#tab1').removeClass('active');
       $('#tab2').addClass('active');
+      $('#health-tab').removeClass('active');
+      $('#benefits-tab').addClass('active');
     }
+  
 });
