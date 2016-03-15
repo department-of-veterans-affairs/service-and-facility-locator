@@ -7,6 +7,7 @@ $( document ).ready(function() {
 
   var parameters = {};
   var URL = window.location.href;
+  
   var markerData = [];
   var markers_on_map = false;
   var shown = [];
@@ -208,44 +209,48 @@ $( document ).ready(function() {
   });
   
   function update_facility_list() {
-    $("#facilitiesList").html("");
-    shown = [];
-    shownIndex = 0;
-    if (markers_on_map) {
-      var bounds = map.getBounds();
-      
-      var directions_URL_beginning = 'https://api.mapbox.com/v4/directions/mapbox.driving/';
-      var directions_URL_ending = '.json?access_token=' + L.mapbox.accessToken;
-          
-          
-      for(var i = 0; i < markerData.length; i++) {
-        var lat_lng = L.latLng(markerData[i]['latitude'], markerData[i]['longitude']);
-        if (bounds.contains(lat_lng)) {
-          var center = map.getCenter();
-          shown.push(markerData[i]);
-          
-          var directionsUrl = directions_URL_beginning;
-          if(search_center_lng == -1 || search_center_lat == -1) {
-            directionsUrl += center.lng + ',' + center.lat;
-          } else {
-            directionsUrl += search_center_lng + ',' + search_center_lat;
+    if(URL.includes("show")) {
+      $("#facilitiesList").html("");
+      shown = [];
+      shownIndex = 0;
+      if (markers_on_map) {
+        var bounds = map.getBounds();
+        
+        var directions_URL_beginning = 'https://api.mapbox.com/v4/directions/mapbox.driving/';
+        var directions_URL_ending = '.json?access_token=' + L.mapbox.accessToken;
+            
+            
+        for(var i = 0; i < markerData.length; i++) {
+          var lat_lng = L.latLng(markerData[i]['latitude'], markerData[i]['longitude']);
+          if (bounds.contains(lat_lng)) {
+            var center = map.getCenter();
+            shown.push(markerData[i]);
+            
+            var directionsUrl = directions_URL_beginning;
+            if(search_center_lng == -1 || search_center_lat == -1) {
+              directionsUrl += center.lng + ',' + center.lat;
+            } else {
+              directionsUrl += search_center_lng + ',' + search_center_lat;
+            }
+            directionsUrl += ';' + markerData[i]['longitude'] + ',' +  markerData[i]['latitude'] + directions_URL_ending;
+            $.ajax({
+              url: directionsUrl,
+              type: 'GET',
+              success: function(data) { list_facilities(data); }
+            });
           }
-          directionsUrl += ';' + markerData[i]['longitude'] + ',' +  markerData[i]['latitude'] + directions_URL_ending;
-          $.ajax({
-            url: directionsUrl,
-            type: 'GET',
-            success: function(data) { list_facilities(data); }
-          });
         }
       }
     }
   }
   
   function list_facilities(data) {
+    
     var distance = meters_to_miles(data.routes[0].distance);
     var j = find_min_distance(shown, data.destination.geometry.coordinates[1], data.destination.geometry.coordinates[0])
     var li = "<li data-distance=" + distance + ">" + facilityHTML(shown[j])  + 
-                  '<span class="distance">Driving Distance: ' + distance + " miles</span></li>";            
+                  '<span class="distance">Driving Distance: ' + distance + " miles</span></li>";                     
+    shown.splice(j, 1);
     var array = $("#facilitiesList").find("li");
 
     for(var i = 0; i < array.length; i++) {
