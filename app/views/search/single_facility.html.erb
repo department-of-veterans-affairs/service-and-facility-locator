@@ -134,7 +134,17 @@
         </div>
  
         <div id="tab2" class="tab">
-            <p>Alex, the benefits services go here.</p>
+          <% @vba_services_hash.each do | service_level_1, service_level_2_array | %>
+        <div class="service-block">
+                <span class="facility-details"><span class="l1-services"><%= service_level_1 %></span>
+
+                <% service_level_2_array.each do | service_level_2 | %>
+                  <ul class="services-ul">
+                    <li class="l2-service"><%= service_level_2 %></li>
+                  </ul>  
+                <% end %>  
+        </div>
+        <% end %>
             
         </div>
  

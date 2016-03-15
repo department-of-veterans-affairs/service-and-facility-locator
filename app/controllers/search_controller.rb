@@ -11,7 +11,11 @@ class SearchController < ApplicationController
       format.html
       format.json do
         render json: @facilities = if params[:service_level_2].nil? && params[:service_level_1].nil?
-                                     Facility.all
+                                     if params[:administration] == "Benefits"
+                                       VBAFacility.all
+                                     else
+                                       Facility.all
+                                     end
                                    else
                                      get_facilities_by_service(params)
                                    end
@@ -44,12 +48,25 @@ class SearchController < ApplicationController
 
   def single_facility
     @facility = Facility.where(facility_id: params[:facility_id]).first
-    services = Service.where(facility_id: params[:facility_id])
+    
     if @facility.nil?
       @facility = VBAFacility.where(facility_id: params[:facility_id]).first
-      services = VBAService.where(facility_id: params[:facility_id])
+      vba_services = VBAService.where(facility_id: params[:facility_id])
+      @vba_services_hash = generate_hash_of_service_levels(vba_services)
+      services = Service.where(facility_id: @facility.original_facility_id)
+      @services_hash = generate_hash_of_service_levels(services)
+    else
+      services = Service.where(facility_id: params[:facility_id])
+      @services_hash = generate_hash_of_service_levels(services)
+      vba_facility = VBAFacility.where(original_facility_id: params[:facility_id]).first
+      if(vba_facility)
+        vba_services = VBAService.where(facility_id: vba_facility.facility_id)
+      else
+        vba_services = []
+      end
+      @vba_services_hash = generate_hash_of_service_levels(vba_services)
     end
-    @services_hash = generate_hash_of_service_levels(services)
+    
   end
 
   def service_types_by_administration
