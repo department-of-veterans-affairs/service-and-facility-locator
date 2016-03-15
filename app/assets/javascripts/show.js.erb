@@ -169,13 +169,13 @@ $( document ).ready(function() {
 }
   
   function create_marker(facility, content) {
-    var color = "#112e51";
+    var color = "#2e8540";
     if(facility['classification'] == "VA Medical Center (VAMC)") {
       color = "#0071bc";
     } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
-      color = "#205493";
+      color = "#fdb81e";
     } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
-      color = "#112e51";
+      color = "#e7f4e4";
     }
     
     return [
