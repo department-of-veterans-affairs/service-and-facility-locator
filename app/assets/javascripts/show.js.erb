@@ -169,20 +169,25 @@ $( document ).ready(function() {
 }
   
   function create_marker(facility, content) {
+    // These defaults stick with VBA facilities. 
     var color = "#2e8540";
-    if(facility['classification'] == "VA Medical Center (VAMC)") {
-      color = "#0071bc";
-    } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
-      color = "#fdb81e";
-    } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
-      color = "#fdb81e";
-    }
-    
-//    VBA - #2e8540 "marker-symbol": "town-hall"
-//    VAMC - #0071bc "marker-symbol": "hospital"
-//    Clinics - #112e51 "marker-symbol": "hospital"
-//    Extended care and Community Living - "marker-symbol": "building"
-//    
+    var marker = "town-hall";
+    if('classification' in facility) { //VHA facility
+      if(facility['classification'] == "VA Medical Center (VAMC)") {
+        color = "#0071bc";
+        marker = "hospital";
+      } else if (facility['classification'] == "Residential Care Site (MH RRTP/DRRTP) (Stand-Alone)") {
+        color = "#fdb81e";
+        marker = "building";
+      } else if (facility['classification'] == "Extended Care Site (Community Living Center) (Stand-Alone)") {
+        color = "#fdb81e";
+        marker = "building";
+      } else {
+        color = "#112e51"
+        marker = "hospital";
+      }
+    } 
+
     return [
     {
       "type": "Feature",
@@ -194,7 +199,7 @@ $( document ).ready(function() {
         "title": content,
         "marker-color": color,
         "marker-size": "medium",
-        "marker-symbol": "hospital"
+        "marker-symbol": marker
       }
     }];
   }
