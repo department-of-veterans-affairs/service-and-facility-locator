@@ -149,10 +149,11 @@ $( document ).ready(function() {
     }
     driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
     var classification = data[i]['classification'] == undefined ? "" : "<br>" + data[i]['classification'];
+    var phone_number = data[i]['station_phone_number'] == undefined ? data[i]['cemetery_operations'] : data[i]['station_phone_number'];
     var href_link = URL.substring(0, URL.indexOf('/')) + "/single_facility/" + data[i]['facility_id'];
     
     var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
-          '</span>' + classification + '<br>' + data[i]['station_phone_number'] + 
+          '</span>' + classification + "<br>" + phone_number + 
           '<br><a class="facilityLink" href="' + href_link + '">Facility Details</a>' +
           '  |  <a target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
     
@@ -169,6 +170,11 @@ $( document ).ready(function() {
     // These defaults stick with VBA facilities. 
     var color = "#2e8540";
     var marker = "town-hall";
+    
+    if('cemetery_type' in facility) { // NCA facility
+      color = "#494440";
+      marker = "cemetery";
+    }
     if('classification' in facility) { //VHA facility
       if(facility['classification'] == "VA Medical Center (VAMC)") {
         color = "#0071bc";
@@ -202,11 +208,12 @@ $( document ).ready(function() {
   }
   
   function facilityHTML(facility) {
-    if(facility.station_phone_number != undefined) {
+    if(facility.street_address != undefined) {
       var title = '<span class="facilityTitle">' + facility.location_descriptive_name_common_name + '</span>';
       var classification = facility.classification == undefined ? "" : "<br>" + facility.classification;
-      return title + classification + '<br><span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span><br>\n' +
-        facility.station_phone_number + "<br>\n"
+      var phone_number = facility.station_phone_number == undefined ? "" : "<br>" + facility.station_phone_number;
+      return title + classification + '<br><span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span>\n' +
+        phone_number + "<br>\n"
         + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
     }
   }
