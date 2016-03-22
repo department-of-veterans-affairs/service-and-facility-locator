@@ -4,6 +4,8 @@ $( document ).ready(function() {
     
   $('#administration_selection').on("change", function(){
       search.disabled = false;
+      $('#service_level_1_selection').hide();
+      $('#service_level_2_selection').hide();
       parameters = {"administration": administration_selection.value};
       $.ajax({
           url: '/service_types_by_administration',
@@ -20,6 +22,7 @@ $( document ).ready(function() {
   });
   
   $('#service_level_1_selection').on("change", function(){
+      $('#service_level_2_selection').hide();
       parameters = {"administration": administration_selection.value,
                     "service_level_1" : service_level_1_selection.value};
       $.ajax({

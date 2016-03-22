@@ -12,9 +12,11 @@ class SearchController < ApplicationController
       format.json do
         render json: @facilities = if params[:service_level_2].nil? && params[:service_level_1].nil?
                                      if params[:administration] == "Select Service Type"
-                                       VBAFacility.all + Facility.all
+                                       VBAFacility.all + Facility.all + NCAFacility.all
                                      elsif params[:administration] == "Benefits"
                                        VBAFacility.all
+                                     elsif params[:administration] == "Cemeteries"
+                                       NCAFacility.all
                                      else
                                        Facility.all
                                      end
@@ -27,7 +29,9 @@ class SearchController < ApplicationController
 
   def get_facilities_by_service(params)
     #put debugger here and figure out why facilities are not showing up. 
-    if params[:administration] == "Benefits"
+    if params[:administration] == "Cemeteries"
+      NCAFacility.all
+    elsif params[:administration] == "Benefits"
       if !params[:service_level_2].nil?
         facility_ids_that_match = VBAService.where(service_level_2:
                                                     params[:service_level_2]).uniq.pluck(:facility_id)
@@ -53,10 +57,14 @@ class SearchController < ApplicationController
     
     if @facility.nil?
       @facility = VBAFacility.where(facility_id: params[:facility_id]).first
-      vba_services = VBAService.where(facility_id: params[:facility_id])
-      @vba_services_hash = generate_hash_of_service_levels(vba_services)
-      services = Service.where(facility_id: @facility.original_facility_id)
-      @services_hash = generate_hash_of_service_levels(services)
+      if @facility.nil?
+        @facility = NCAFacility.where(facility_id: params[:facility_id]).first
+      else
+        vba_services = VBAService.where(facility_id: params[:facility_id])
+        @vba_services_hash = generate_hash_of_service_levels(vba_services)
+        services = Service.where(facility_id: @facility.original_facility_id)
+        @services_hash = generate_hash_of_service_levels(services)
+      end
     else
       services = Service.where(facility_id: params[:facility_id])
       @services_hash = generate_hash_of_service_levels(services)
@@ -75,7 +83,7 @@ class SearchController < ApplicationController
     # add in test for if health or benefits or NCA and redirect accordingly
     @services = if params[:administration] == "Benefits"
                   VBAService.all.pluck(:service_level_1).uniq
-                else
+                elsif params[:administration] == "Health"
                   Service.all.pluck(:service_level_1).uniq
                 end
     render json: @services
