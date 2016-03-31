@@ -11,9 +11,10 @@ $( document ).ready(function() {
   var markerData = [];
   var markers_on_map = false;
   var shown = [];
-  var shownIndex = 0; 
+  var shownIndex = 0;
   search_center_lat = -1;
   search_center_lng = -1;
+  non_va_markers = [];
   
   if (URL.includes("Location=")) {
     var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
@@ -25,6 +26,9 @@ $( document ).ready(function() {
 
   if (URL.includes("administration")) {
     var administration = get_string_from_url(URL, "administration");
+    if(administration != "Health" && administration != "Select Service Type") {
+      $("#choice-act-toggle").hide();
+    }
     $('#administration_selection').val(administration);
     parameters["administration"] = administration;
     $.ajax({
@@ -255,6 +259,7 @@ $( document ).ready(function() {
           }
         }
       }
+      add_choice_program();
     }
   }
   
@@ -298,6 +303,172 @@ $( document ).ready(function() {
       }
     }  
     return min_index_thus_far;
+  }
+  
+  $('#choice-providers').on("click", function() {
+    add_choice_program();
+  });
+  
+  
+  function add_choice_program() {
+    if(document.getElementById("choice-providers").checked) {  
+      document.getElementById("choice-act-label").innerHTML = "To schedule a Veterans Choice Program appointment you must call 866-606-8198";
+      remove_choice_act_markers();
+      var services_to_search = [];
+      var URL = window.location.href
+      if(URL.includes("service_level_1")) {
+        var service_level_1 = get_string_from_url(URL, "service_level_1");
+        if (service_level_1 == "Complementary and Alternative Medicine") {
+          services_to_search.push("ACUPUNCTURE");
+          services_to_search.push("CHIROPRACTOR");
+          services_to_search.push("HOME HEALTH");
+          services_to_search.push("HOSPICE AND PALLATIVE CARE");
+        } else if (service_level_1 == "Audiology") {
+          services_to_search.push("AUDIOLOGY");
+        } else if (service_level_1 == "Dental Services") {
+          services_to_search.push("DENTISTRY");
+        } else if (service_level_1 == "Diagnostic Services") {
+          services_to_search.push("LABORATORY");
+          services_to_search.push("PATHOLOGY");
+          services_to_search.push("RADIOLOGY / DIAGNOSTIC IMAGING");
+        } else if (service_level_1 == "Extended Care") {
+          services_to_search.push("GERONTOLOGY");
+        } else if (service_level_1 == "Eye (Vision) Care") {
+          services_to_search.push("OPTOMETRY");
+          services_to_search.push("OPHTHALMOLOGY");
+        } else if (service_level_1 == "Mental Health Care") {
+          services_to_search.push("BEHAVIORAL MEDICINE");
+        } else if (service_level_1 == "Wellness & Preventative Care") {
+          services_to_search.push("DIET AND NUTRITION");
+        } else if (service_level_1 == "Rehabilitation Care & Services") {
+          services_to_search.push("PHYSICAL MED/REHABILITATION");
+        } else if (service_level_1 == "Primary Care") {
+          services_to_search.push("PRIMARY CARE");
+        } else if (service_level_1 == "Outpatient Surgical Specialty Care") {
+          services_to_search.push("AMBULATORY SURGERY CENTER");
+          services_to_search.push("ANESTHESIOLOGY");
+          services_to_search.push("ENT (EARS/NOSE/THROAT) -OTORHINOLARYNGOLOGY");
+          services_to_search.push("OB/GYN");
+          services_to_search.push("ORTHOPEDICS");
+          services_to_search.push("PAIN MANAGEMENT");
+          services_to_search.push("PODIATRY");
+          services_to_search.push("SURGERY");
+          services_to_search.push("UROLOGY");
+        } else if (service_level_1 == "Outpatient Medical Specialty Care") {
+          services_to_search.push("ALLERGY, ASTHMA, AND IMMUNOLOGY");
+          services_to_search.push("CARDIOLOGY");
+          services_to_search.push("DERMATOLOGY");
+          services_to_search.push("DIALYSIS");
+          services_to_search.push("ENDOCRINOLOGY");
+          services_to_search.push("GASTROENTEROLOGY");
+          services_to_search.push("GENETICS");
+          services_to_search.push("HEMATOLOGY");
+          services_to_search.push("INFECTIOUS DISEASES");
+          services_to_search.push("INFUSION THERAPY");
+          services_to_search.push("NEONATAL-PERINATAL");
+          services_to_search.push("NEPHROLOGY");
+          services_to_search.push("NEUROLOGY");
+          services_to_search.push("ONCOLOGY");
+          services_to_search.push("PROCTOLOGY");
+          services_to_search.push("PULMONARY DISEASE");
+          services_to_search.push("RHEUMATOLOGY");
+        }
+        
+        for(var i = 0; i < services_to_search.length; i++) {
+          get_non_va_data("&where=SpecialtyVACategories='" + services_to_search[i] + "'");
+        }
+        services_to_search = [];
+        
+      } else { // no service level 1
+        get_non_va_data("");
+      }
+    } else { //unchecked
+        document.getElementById("choice-act-label").innerHTML = "Show Choice Act Providers";
+        remove_choice_act_markers();
+    }
+  }
+  
+  function remove_choice_act_markers() {
+    for(var i = 0; i < non_va_markers.length; i++) {
+      map.removeLayer(non_va_markers[i]);
+    }
+    non_va_markers = [];
+  }
+  
+  function get_non_va_data(string_to_add_to_query) {
+    var bounds = map.getBounds();
+    var x_min = bounds._southWest.lng;
+    var y_min = bounds._southWest.lat;
+    
+    var x_max = bounds._northEast.lng;
+    var y_max = bounds._northEast.lat;
+    
+    var arcgis_url = 'https://services3.arcgis.com/aqgBd3l68G8hEFFE/ArcGIS/rest/services/ChoiceActProviders/FeatureServer/0/query?f=json' + string_to_add_to_query + '&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry={"xmin":' + x_min + ',"ymin":' + y_min + ',"xmax":' + x_max + ',"ymax":' + y_max + ',"spatialReference":{"wkid":4326}}&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&outSR=102100';
+    
+    $.ajax({
+        url: arcgis_url,
+        type: 'GET',
+        dataType: "json",
+        success: function(data){
+            add_non_va_providers(data);
+        },
+        failure: function(data){
+            alert(data);
+        }
+    });
+  }
+  
+  function add_non_va_providers(data) {
+    for(var i = 0; i < data.features.length; i++) {
+      var obj = data.features[i];
+      var name = obj.attributes.ProviderFirstName + " " + obj.attributes.ProviderSurName;
+      
+      var starting_location = "";
+      if(search_center_lng == -1 || search_center_lat == -1) {
+        if(typeof center !== 'undefined')
+          starting_location += center.lat + ',' + center.lng;
+      } else {
+        starting_location += search_center_lat + ',' + search_center_lng;
+      }
+      
+      var driving_directions_url = "https://www.google.com/maps/dir/" + starting_location + 
+            "/" + obj.attributes.AddressLine + " " + obj.attributes.City + " " + 
+            obj.attributes.State + " " + obj.attributes.Zip_1;
+      
+      
+      var content = name + "<br>" + obj.attributes.GroupName + 
+                            "<br>" + obj.attributes.SpecialtyVACategories +
+                            "<br><br>" + obj.attributes.AddressLine +
+                            "<br>" + obj.attributes.City + ", " + obj.attributes.State + 
+                            obj.attributes.Zip_1 + 
+                            "<br><br><a target='_blank' href='" + driving_directions_url + "'>Driving Directions</a>";
+
+      var geojson = [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [obj.attributes.Long, obj.attributes.Lat]
+        },
+        "properties": {
+          "title": content,
+          "marker-color": "#FAC922",
+          "marker-size": "medium",
+          "marker-symbol": "hospital"
+        }
+      }];
+      var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
+      non_va_markers.push(myLayer);
+    
+      //add to list view
+      var facility_in_list = '<span class="facilityTitle">' + name + '</span><br>Group: ' + 
+              obj.attributes.GroupName + '<br>Speciality: ' + obj.attributes.SpecialtyVACategories + 
+              '<br><span class="address">' + obj.attributes.AddressLine + "<br>\n" + obj.attributes.City + ", " + obj.attributes.State + " " + obj.attributes.Zip_1 + '</span>\n' +
+              '<br><a class="facilityLink" target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
+        
+      var li = "<li>" + facility_in_list + "</li>";   
+      $("#facilitiesList").append(li);
+    }
   }
   
 });
