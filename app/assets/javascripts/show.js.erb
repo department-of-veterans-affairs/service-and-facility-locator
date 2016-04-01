@@ -32,7 +32,7 @@ $( document ).ready(function() {
     $('#administration_selection').val(administration);
     parameters["administration"] = administration;
     $.ajax({
-        url: '/service_types_by_administration',
+        url: '/service-and-facility-locator/service_types_by_administration',
         type: 'GET',
         data: parameters,
         dataType: "json",
@@ -50,7 +50,7 @@ $( document ).ready(function() {
     $('#service_level_1_selection').show();
     parameters["service_level_1"] = service_level_1;
     $.ajax({
-        url: '/service_level_2',
+        url: '/service-and-facility-locator/service_level_2',
         type: 'GET',
         data: parameters,
         dataType: "json",
@@ -93,7 +93,7 @@ $( document ).ready(function() {
     var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
     
     $.ajax({
-        url: '/search/show',
+        url: '/service-and-facility-locator/search/show',
         type: 'GET',
         data: parameters,
         dataType: "json",
@@ -154,7 +154,7 @@ $( document ).ready(function() {
     driving_directions_url += data[i]['city'] + " " + data[i]['state'] + " " + data[i]['zip_code'];
     var classification = data[i]['classification'] == undefined ? "" : "<br>" + data[i]['classification'];
     var phone_number = data[i]['station_phone_number'] == undefined ? data[i]['cemetery_operations'] : data[i]['station_phone_number'];
-    var href_link = URL.substring(0, URL.indexOf('/')) + "/single_facility/" + data[i]['facility_id'];
+    var href_link = URL.substring(0, URL.indexOf('/')) + "/service-and-facility-locator/single_facility/" + data[i]['facility_id'];
     
     var content = '<span class="bubble-title">' + data[i]['location_descriptive_name_common_name'] + 
           '</span>' + classification + "<br>" + phone_number + 
@@ -218,7 +218,7 @@ $( document ).ready(function() {
       var phone_number = facility.station_phone_number == undefined ? "" : "<br>" + facility.station_phone_number;
       return title + classification + '<br><span class="address">' + facility.street_address + "<br>\n" + facility.city + ", " + facility.state + " " + facility.zip_code + '</span>\n' +
         phone_number + "<br>\n"
-        + '<a class="facilityLink" href="/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
+        + '<a class="facilityLink" href="/service-and-facility-locator/single_facility/' + facility.facility_id + '">Facility Details</a><br>\n';
     }
   }
 

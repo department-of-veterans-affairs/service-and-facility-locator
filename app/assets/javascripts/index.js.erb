@@ -8,7 +8,7 @@ $( document ).ready(function() {
       $('#service_level_2_selection').hide();
       parameters = {"administration": administration_selection.value};
       $.ajax({
-          url: '/service_types_by_administration',
+          url: '/service-and-facility-locator/service_types_by_administration',
           type: 'GET',
           data: parameters,
           dataType: "json",
@@ -26,7 +26,7 @@ $( document ).ready(function() {
       parameters = {"administration": administration_selection.value,
                     "service_level_1" : service_level_1_selection.value};
       $.ajax({
-          url: '/service_level_2',
+          url: '/service-and-facility-locator/service_level_2',
           type: 'GET',
           data: parameters,
           dataType: "json",
@@ -48,7 +48,7 @@ $( document ).ready(function() {
     if($('#service_level_1_selection').val() != "All") {
       query_parameters += "&service_level_1=" + service_level_1_selection.value;
     }
-    window.location="/search/show?" + query_parameters;
+    window.location="/service-and-facility-locator/search/show?" + query_parameters;
     
   });
 });
