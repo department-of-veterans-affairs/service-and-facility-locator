@@ -62,8 +62,7 @@ bundle exec rake db:schema:load
 Load Data
 
 ```
-bundle exec rake create_facilities
-bundle exec rake create_services
+bundle exec rake import_data
 ```
 
 Start the application!
