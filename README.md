@@ -68,8 +68,10 @@ bundle exec rake import_data
 Start the application!
 
 ```
-bundle exec rails server
+bundle exec puma -p 3000
 ```
+
+Access the application at localhost:3000/service-and-facility-locator
 
 ####Test Prerequisites
 You'll need to have `phantomjs` installed to run the feature specs. If you have homebrew, it's as easy as:
