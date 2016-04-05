@@ -136,7 +136,9 @@ table td {
 
 .choice-toggle {
   position: absolute;
-  height: 45px;
+  min-height: 45px;
+  min-width: 300px;
+  max-width: 300px;
   top: 15px;
   right: 15px;
   z-index: 99999999999;
