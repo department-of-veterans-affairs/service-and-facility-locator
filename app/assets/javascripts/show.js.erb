@@ -17,7 +17,7 @@ $( document ).ready(function() {
   search_center_lng = -1;
   non_va_markers = [];
   
-  if (URL.includes("Location=")) {
+  if (URL.indexOf("Location=") >= 0) {
     var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
     $('#search_location').val(location);
     geocoder.query(location, showMap);
@@ -25,7 +25,7 @@ $( document ).ready(function() {
       navigator.geolocation.getCurrentPosition(recenter);
   }
 
-  if (URL.includes("administration")) {
+  if (URL.indexOf("administration") >= 0) {
     var administration = get_string_from_url(URL, "administration");
     if(administration != "Health" && administration != "Select Service Type") {
       $("#choice-act-toggle").hide();
@@ -45,7 +45,7 @@ $( document ).ready(function() {
         }
     });
   }
-  if(URL.includes("service_level_1")) {
+  if(URL.indexOf("service_level_1") >= 0) {
     var service_level_1 = get_string_from_url(URL, "service_level_1");
     
     $('#service_level_1_selection').show();
@@ -64,7 +64,7 @@ $( document ).ready(function() {
         }
     });
   } 
-  if(URL.includes("service_level_2")) {
+  if(URL.indexOf("service_level_2") >= 0) {
     var service_level_2 = get_string_from_url(URL, "service_level_2")
     service_level_2_selection.value = service_level_2.replaceAll("%20", " ");
     parameters["service_level_2"] = service_level_2;
@@ -228,7 +228,7 @@ $( document ).ready(function() {
   });
   
   function update_facility_list() {
-    if(URL.includes("show")) {
+    if(URL.indexOf("show") >= 0) {
       $("#facilitiesList").html("");
       max_number_shown_in_list = false;
       shown = [];
@@ -334,7 +334,7 @@ $( document ).ready(function() {
       remove_choice_act_markers();
       var services_to_search = [];
       var URL = window.location.href
-      if(URL.includes("service_level_1")) {
+      if(URL.indexOf("service_level_1") >= 0) {
         var service_level_1 = get_string_from_url(URL, "service_level_1");
         if (service_level_1 == "Complementary and Alternative Medicine") {
           services_to_search.push("ACUPUNCTURE");

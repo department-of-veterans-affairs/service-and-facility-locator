@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
     });
     
     var URL = window.location.href;
-    if(URL.includes("VBA")) {
+    if(URL.indexOf("VBA") >= 0) {
       $('#tab1').removeClass('active');
       $('#tab2').addClass('active');
       $('#health-tab').removeClass('active');
