@@ -40,6 +40,9 @@ $( document ).ready(function() {
   });
   
   $('#search').on("click", function() {
+    if(search_location.value == "") {
+      search_location.value = "Washington, DC";
+    }
     var query_parameters = "Location=" + search_location.value;
     query_parameters += "&administration=" + administration_selection.value;
     if($('#service_level_2_selection').val() != "All") {
@@ -65,16 +68,17 @@ function fill_service_level(data, html_element) {
   opt.value = "All";
   fragment.appendChild(opt);
   var element_added = 0;
-  
-  data.forEach(function(element, index) {
-    if(element != null) {
-      opt = document.createElement('option');
-      opt.innerHTML = element;
-      opt.value = element;
-      fragment.appendChild(opt);
-      element_added = 1;
-    }
-  });
+  if(data != null) {
+    data.forEach(function(element, index) {
+      if(element != null) {
+        opt = document.createElement('option');
+        opt.innerHTML = element;
+        opt.value = element;
+        fragment.appendChild(opt);
+        element_added = 1;
+      }
+    });
+  }
   sel.appendChild(fragment);
   
   if(element_added) {
