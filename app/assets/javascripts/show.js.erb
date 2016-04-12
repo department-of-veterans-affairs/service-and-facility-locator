@@ -12,11 +12,12 @@ $( document ).ready(function() {
   var markers_on_map = false;
   var shown = [];
   var shownIndex = 0;
+  var max_number_shown_in_list = false;
   search_center_lat = -1;
   search_center_lng = -1;
   non_va_markers = [];
   
-  if (URL.includes("Location=")) {
+  if (URL.indexOf("Location=") >= 0) {
     var location = URL.substring(URL.indexOf("Location=") + 9, URL.indexOf('&')).replace(/%20/g, ' ')
     $('#search_location').val(location);
     geocoder.query(location, showMap);
@@ -24,12 +25,12 @@ $( document ).ready(function() {
       navigator.geolocation.getCurrentPosition(recenter);
   }
 
-  if (URL.includes("administration")) {
+  if (URL.indexOf("administration") >= 0) {
     var administration = get_string_from_url(URL, "administration");
     if(administration != "Health" && administration != "Select Service Type") {
       $("#choice-act-toggle").hide();
     }
-    $('#administration_selection').val(administration);
+    administration_selection.value = administration;
     parameters["administration"] = administration;
     $.ajax({
         url: '/service-and-facility-locator/service_types_by_administration',
@@ -44,10 +45,11 @@ $( document ).ready(function() {
         }
     });
   }
-  if(URL.includes("service_level_1")) {
+  if(URL.indexOf("service_level_1") >= 0) {
     var service_level_1 = get_string_from_url(URL, "service_level_1");
     
     $('#service_level_1_selection').show();
+    service_level_1_selection.value = service_level_1.replaceAll("%20", " ");
     parameters["service_level_1"] = service_level_1;
     $.ajax({
         url: '/service-and-facility-locator/service_level_2',
@@ -62,9 +64,9 @@ $( document ).ready(function() {
         }
     });
   } 
-  if(URL.includes("service_level_2")) {
+  if(URL.indexOf("service_level_2") >= 0) {
     var service_level_2 = get_string_from_url(URL, "service_level_2")
-    $('#service_level_2_selection').val(service_level_2);
+    service_level_2_selection.value = service_level_2.replaceAll("%20", " ");
     parameters["service_level_2"] = service_level_2;
   }
   
@@ -86,7 +88,7 @@ $( document ).ready(function() {
       "properties": {
         "title": "Your Location",
         "marker-color": "#e31c3d",
-        "marker-size": "small",
+        "marker-size": "medium",
         "marker-symbol": "star"
       }
     }];
@@ -125,7 +127,6 @@ $( document ).ready(function() {
   
   //plot data on the map
   function plotData(data, map){
-    //remove points from map
    for (var i = 0; i < data.length; i++) {
      if (isNaN(parseFloat(data[i]['longitude'])) || isNaN(parseFloat(data[i]['latitude']))) {
        continue;
@@ -227,8 +228,9 @@ $( document ).ready(function() {
   });
   
   function update_facility_list() {
-    if(URL.includes("show")) {
+    if(URL.indexOf("show") >= 0) {
       $("#facilitiesList").html("");
+      max_number_shown_in_list = false;
       shown = [];
       shownIndex = 0;
       if (markers_on_map) {
@@ -243,6 +245,14 @@ $( document ).ready(function() {
           if (bounds.contains(lat_lng)) {
             var center = map.getCenter();
             shown.push(markerData[i]);
+            // Only showing facilities in the list if there are <100 so that we don't overwhelm the google maps
+            //  directions API. This should be done a better way. 
+            if(shown.length > 100) {
+              var li = '<span class="facilityTitle">Only a subset of the facilities are shown in this list. Zoom in to see all the facilities in this list. </span><br><br><br>'
+              $("#facilitiesList").prepend(li);
+              max_number_shown_in_list = true;
+              break;
+            }
             
             var directionsUrl = directions_URL_beginning;
             if(search_center_lng == -1 || search_center_lat == -1) {
@@ -278,7 +288,10 @@ $( document ).ready(function() {
       }
     }    
     if (i <= 0) {
-      $("#facilitiesList").prepend(li);
+      // This is super janky and needs to be fixed. 
+      if(!max_number_shown_in_list) {
+        $("#facilitiesList").prepend(li);
+      } 
     } else if(i >= array.length){
       $("#facilitiesList").append(li);
     } else {
@@ -305,6 +318,11 @@ $( document ).ready(function() {
     return min_index_thus_far;
   }
   
+  $('#refine_results').on("click", function() {
+    service_level_1_selection.value = get_string_from_url(window.location.href, "service_level_1").replaceAll("%20", " ");
+    service_level_2_selection.value = get_string_from_url(window.location.href, "service_level_2").replaceAll("%20", " ");
+  });
+  
   $('#choice-providers').on("click", function() {
     add_choice_program();
   });
@@ -316,7 +334,7 @@ $( document ).ready(function() {
       remove_choice_act_markers();
       var services_to_search = [];
       var URL = window.location.href
-      if(URL.includes("service_level_1")) {
+      if(URL.indexOf("service_level_1") >= 0) {
         var service_level_1 = get_string_from_url(URL, "service_level_1");
         if (service_level_1 == "Complementary and Alternative Medicine") {
           services_to_search.push("ACUPUNCTURE");
@@ -384,7 +402,10 @@ $( document ).ready(function() {
       }
     } else { //unchecked
         document.getElementById("choice-act-label").innerHTML = "Show Choice Act Providers";
-        remove_choice_act_markers();
+        if(non_va_markers.length > 0) {
+          remove_choice_act_markers();
+          update_facility_list();
+        }
     }
   }
   
@@ -462,7 +483,7 @@ $( document ).ready(function() {
     
       //add to list view
       var facility_in_list = '<span class="facilityTitle">' + name + '</span><br>Group: ' + 
-              obj.attributes.GroupName + '<br>Speciality: ' + obj.attributes.SpecialtyVACategories + 
+              obj.attributes.GroupName + '<br>' + obj.attributes.SpecialtyVACategories + 
               '<br><span class="address">' + obj.attributes.AddressLine + "<br>\n" + obj.attributes.City + ", " + obj.attributes.State + " " + obj.attributes.Zip_1 + '</span>\n' +
               '<br><a class="facilityLink" target="_blank" href="' + driving_directions_url + '">Driving Directions</a><br>\n';
         
@@ -489,3 +510,8 @@ function get_string_from_url(URL, substring_to_find) {
   }
   return string_to_return.replace(/%20/g, ' ');
 }
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
