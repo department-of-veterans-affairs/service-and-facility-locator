@@ -1,5 +1,10 @@
 $off-canvas-width: rem-calc(600);
 
+@media only screen and (max-width: 40em){
+.reveal-modal {
+    min-height: 50vh;
+}
+}
 body {
   color: $black;
   margin:0; 
@@ -74,8 +79,8 @@ table td {
   @media(max-width: $small-screen) {
     top: 20px !important;
     left: 20px;
-    width: 90%;
-    height: 400px;
+    width: 280px;
+//    height: 380px;
   }
 }
 
@@ -136,14 +141,29 @@ table td {
 
 .choice-toggle {
   position: absolute;
-  min-height: 45px;
-  min-width: 300px;
-  max-width: 300px;
+  width: 300px;
   top: 15px;
   right: 15px;
   z-index: 99999999999;
   background: rgba($white, 0.85);
   padding: .5rem;
+  display:inline-block;
+  table tr td {
+    padding: 0 .25rem !important;
+  }
+}
+
+.choice-checkbox{
+  vertical-align: top;
+}
+
+.choice-label{
+  float: left;
+  max-width: 100%;
+}
+
+input[type="checkbox"]{
+  margin: 0 0 0 0 !important;
 }
 
 .search-results-list {
