@@ -5,6 +5,20 @@ $off-canvas-width: rem-calc(600);
     min-height: 50vh;
 }
 }
+
+#disclaimer-modal{
+  background-color: white !important;
+  min-width: 75%;
+  min-height: 400px;
+  z-index: 10000;
+}
+
+.disclaimer-text{
+  width: 75%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
 body {
   color: $black;
   margin:0; 

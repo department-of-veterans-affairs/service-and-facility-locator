@@ -1,5 +1,11 @@
 $(document).ready(function(){$('#index-modal').foundation('reveal', 'open');});
 
+$(document).ready(function(){$('#disclaimer-modal').foundation('reveal', 'open');});
+
+$('a.close').on('click', function() {
+  $('#disclaimer-modal').foundation('reveal', 'close');
+});
+
 jQuery(document).ready(function() {
     jQuery('.tabs .tab-links a').on('click', function(e)  {
         var currentAttrValue = jQuery(this).attr('href');
