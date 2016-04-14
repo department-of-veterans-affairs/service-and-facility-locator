@@ -8,7 +8,7 @@ $off-canvas-width: rem-calc(600);
 
 #disclaimer-modal{
   background-color: white !important;
-  min-width: 75%;
+  min-width: 50%;
   min-height: 400px;
   z-index: 10000;
 }
@@ -16,7 +16,7 @@ $off-canvas-width: rem-calc(600);
 .disclaimer-text{
   width: 75%;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 4rem 0;
 }
 
 body {
