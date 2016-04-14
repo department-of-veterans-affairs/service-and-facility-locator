@@ -271,3 +271,7 @@ input[type="checkbox"]{
         .tab.active {
             display:block;
         }
+
+#content ul.breadcrumbs li.active {
+    margin: 0em;
+}
