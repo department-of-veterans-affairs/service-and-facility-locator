@@ -156,6 +156,7 @@ GEM
       bourbon (>= 4.0)
       sass (>= 3.3)
     nenv (0.3.0)
+    newrelic_rpm (3.15.1.316)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     normalize-rails (3.0.3)
@@ -357,6 +358,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails (~> 4.0.5)
   jshint
+  newrelic_rpm
   pg (~> 0.18.4)
   puma (~> 2.16.0)
   rails (= 4.2.5.2)

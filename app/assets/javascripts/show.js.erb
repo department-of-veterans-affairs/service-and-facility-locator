@@ -27,9 +27,13 @@ $( document ).ready(function() {
 
   if (URL.indexOf("administration") >= 0) {
     var administration = get_string_from_url(URL, "administration");
-    if(administration != "Health" && administration != "Select Service Type") {
+    if(administration != "Health" && administration != "All") {
       $("#choice-act-toggle").hide();
     }
+      
+    document.getElementById("facility-type-breadcrumb").innerHTML = administration;
+    $('#service-level-1-breadcrumb').hide()
+    $('#service-level-2-breadcrumb').hide()
     administration_selection.value = administration;
     parameters["administration"] = administration;
     $.ajax({
@@ -47,7 +51,8 @@ $( document ).ready(function() {
   }
   if(URL.indexOf("service_level_1") >= 0) {
     var service_level_1 = get_string_from_url(URL, "service_level_1");
-    
+    $('#service-level-1-breadcrumb').show()
+    document.getElementById("service-level-1-breadcrumb").innerHTML = service_level_1;
     $('#service_level_1_selection').show();
     service_level_1_selection.value = service_level_1.replaceAll("%20", " ");
     parameters["service_level_1"] = service_level_1;
@@ -66,6 +71,8 @@ $( document ).ready(function() {
   } 
   if(URL.indexOf("service_level_2") >= 0) {
     var service_level_2 = get_string_from_url(URL, "service_level_2")
+    $('#service-level-2-breadcrumb').show()
+    document.getElementById("service-level-2-breadcrumb").innerHTML = service_level_2;
     service_level_2_selection.value = service_level_2.replaceAll("%20", " ");
     parameters["service_level_2"] = service_level_2;
   }
@@ -320,7 +327,13 @@ $( document ).ready(function() {
   
   $('#refine_results').on("click", function() {
     service_level_1_selection.value = get_string_from_url(window.location.href, "service_level_1").replaceAll("%20", " ");
+    if(service_level_1_selection.value == ""){
+      service_level_1_selection.value = "All"
+    }
     service_level_2_selection.value = get_string_from_url(window.location.href, "service_level_2").replaceAll("%20", " ");
+    if(service_level_2_selection.value == ""){
+      service_level_2_selection.value = "All"
+    }  
   });
   
   $('#choice-providers').on("click", function() {

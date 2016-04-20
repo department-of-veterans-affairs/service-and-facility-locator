@@ -34,6 +34,7 @@ gem 'pg', '~> 0.18.4'
 gem 'activerecord-postgis-adapter', '~> 3.1.4'
 
 gem 'va_common', '0.3.4'
+gem 'newrelic_rpm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

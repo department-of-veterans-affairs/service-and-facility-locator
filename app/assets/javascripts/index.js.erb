@@ -45,11 +45,13 @@ $( document ).ready(function() {
     }
     var query_parameters = "Location=" + search_location.value;
     query_parameters += "&administration=" + administration_selection.value;
-    if($('#service_level_2_selection').val() != "All") {
-      query_parameters += "&service_level_2=" + service_level_2_selection.value;
-    } 
-    if($('#service_level_1_selection').val() != "All") {
-      query_parameters += "&service_level_1=" + service_level_1_selection.value;
+    if(administration_selection.value != "All") {
+      if($('#service_level_2_selection').val() != null && $('#service_level_2_selection').val() != "All") {
+        query_parameters += "&service_level_2=" + service_level_2_selection.value;
+      } 
+      if($('#service_level_1_selection').val() != "All") {
+        query_parameters += "&service_level_1=" + service_level_1_selection.value;
+      }
     }
     window.location="/service-and-facility-locator/search/show?" + query_parameters;
     
