@@ -6,8 +6,10 @@
     <div class="row">
       <div class="small-12 columns">
         <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-                    <li class="parent"><a href="/service-and-facility-locator">Service And Facility Locator</a></li>
-          <li class="active"><h2>Search Results</h2></li>
+        <li class="parent"><a href="/service-and-facility-locator">Service And Facility Locator</a></li>
+        <li class="parent" id="facility-type-breadcrumb"></li>
+        <li class="parent" id="service-level-1-breadcrumb"></li>
+        <li class="parent" id="service-level-2-breadcrumb"></li>
         </ul>
       </div>
     </div>
@@ -69,6 +71,7 @@
         </div>
 -->
         <select id="administration_selection">
+          <option value="All">All</option>
           <option value="Health">Health</option>
           <option value="Benefits">Benefits</option>
           <option value="Cemeteries">Cemeteries</option>

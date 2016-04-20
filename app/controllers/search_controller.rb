@@ -11,7 +11,7 @@ class SearchController < ApplicationController
       format.html
       format.json do
         render json: @facilities = if params[:service_level_2].nil? && params[:service_level_1].nil?
-                                     if params[:administration] == "Select Service Type"
+                                     if params[:administration] == "All"
                                        VBAFacility.all + Facility.all + NCAFacility.all
                                      elsif params[:administration] == "Benefits"
                                        VBAFacility.all
