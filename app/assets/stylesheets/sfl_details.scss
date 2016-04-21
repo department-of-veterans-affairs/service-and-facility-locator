@@ -108,7 +108,7 @@ table td {
 
 .search-info {
   padding: 1rem;
-  height: 110px;
+//  height: 225px;
 }
 
 .breadcrumb-buttons {
@@ -135,8 +135,8 @@ table td {
 
 .facilities-list {
   height: 100%;
-  min-height: 450px;
-  max-height: 590px;
+  min-height: 150px;
+  max-height: 435px;
   overflow-y: scroll;
   background-color: $white;
   li {
@@ -198,7 +198,7 @@ input[type="checkbox"]{
 
 .address {
   font-size: .85rem;
-  line-height: 1rem;
+  line-height: .5rem;
 }
 
 .distance {
@@ -288,4 +288,33 @@ input[type="checkbox"]{
 
 #content ul.breadcrumbs li.active {
     margin: 0em;
+}
+
+.search-filter-ul{
+  margin-left: 0 !important;
+  
+}
+
+.search-filter{
+  font-size: .75rem;
+  list-style-type: none;
+}
+
+.your-search{
+  margin: 0 !important;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.nomargin{
+  margin: 0 !important;
+}
+
+.your-results{
+  margin: .5rem 1.1rem !important;
+}
+
+.breadcrumb-buttons a{
+    text-decoration: none;
+    background: none;
+    color: #fff;
 }
