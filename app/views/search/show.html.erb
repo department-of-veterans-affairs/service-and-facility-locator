@@ -7,9 +7,7 @@
       <div class="small-12 columns">
         <ul class="breadcrumbs" role="menubar" aria-label="Primary">
         <li class="parent"><a href="/service-and-facility-locator">Service And Facility Locator</a></li>
-        <li class="parent" id="facility-type-breadcrumb"></li>
-        <li class="parent" id="service-level-1-breadcrumb"></li>
-        <li class="parent" id="service-level-2-breadcrumb"></li>
+        <li class="active">Search Results</li>
         </ul>
       </div>
     </div>
@@ -49,9 +47,20 @@
        
        <div class="search-info"><!---Start Search Information -->
           <div class="text-input nowrap">
+                  <div>
+                    <p class="your-search">You Searched For:</p>
+        <ul class="search-filter-ul">
+        <li class="search-filter" id="facility-type-breadcrumb"></li>
+        <li class="search-filter" id="service-level-1-breadcrumb"></li>
+        <li class="search-filter" id="service-level-2-breadcrumb"></li>
+        </ul>
+      </div>
+            <p class="your-search">Near:</p>
            <input id="search_location" type="text" placeholder="This should be the searched address"></div>
          <div id="refine_results" class="breadcrumb-buttons">
-            <button class="top-off-canvas-toggle usa-button active-crumb">Refine Results</button>
+            <button class="top-off-canvas-toggle usa-button active-crumb">Refine Results
+          <button class="usa-button active-crumb"><a href="/service-and-facility-locator" id="new-search">New Search</a></button>
+           
            </div>
           
        </div><!---End Search Information -->
@@ -60,6 +69,8 @@
   <div class="inner-wrap">
     
        <!---Start Facilities List -->
+    <hr class="nomargin">
+           <p class="your-search your-results">Your Results:</p>
        <div class="facilities-list">
         <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
          </div><!---End Facilities List -->
@@ -83,7 +94,7 @@
           <option value="All" selected>All</option>
         </select>
         <button type="button" id="search" class="refine-button btn btn-sm btn-tab">Apply Filters</button>
- </aside>  
+ </aside> 
     
       </div>
 </div>
